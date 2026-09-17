@@ -29,6 +29,7 @@ class AppTextField extends StatefulWidget {
     this.minLines,
     this.maxLength,
     this.radius = AppMetrics.radiusCard,
+    this.hasError = false,
     this.suffix,
     this.onChanged,
     this.onSubmitted,
@@ -58,6 +59,10 @@ class AppTextField extends StatefulWidget {
   final int? maxLength;
 
   final double radius;
+
+  /// Красная рамка вместо обычной — инлайновая валидация на регистрации.
+  final bool hasError;
+
   final Widget? suffix;
   final ValueChanged<String>? onChanged;
   final ValueChanged<String>? onSubmitted;
@@ -115,7 +120,13 @@ class _AppTextFieldState extends State<AppTextField> {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(widget.radius),
-        border: Border.all(color: _focused ? AppColors.primary : AppColors.border),
+        border: Border.all(
+          color: widget.hasError
+              ? AppColors.danger
+              : _focused
+                  ? AppColors.primary
+                  : AppColors.border,
+        ),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(

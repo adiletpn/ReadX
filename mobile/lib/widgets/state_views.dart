@@ -144,3 +144,28 @@ class EmptyState extends StatelessWidget {
     );
   }
 }
+
+/// Green confirmation block used by the password-recovery screens:
+/// `bg-[#22C55E]/10` with a 30 % green hairline and 14 pt green text.
+class AppSuccessBanner extends StatelessWidget {
+  const AppSuccessBanner({super.key, required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      decoration: BoxDecoration(
+        color: const Color(0x1A22C55E),
+        borderRadius: BorderRadius.circular(AppMetrics.radiusCard),
+        border: Border.all(color: const Color(0x4D22C55E)),
+      ),
+      child: Text(
+        message,
+        style: const TextStyle(fontSize: 14, height: 1.5, color: AppColors.success),
+      ),
+    );
+  }
+}

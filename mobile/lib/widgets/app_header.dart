@@ -78,7 +78,6 @@ class HeaderIconButton extends StatelessWidget {
     required this.onTap,
     this.semanticLabel,
     this.size = 22,
-    this.strokeWidth = 1.7,
     this.color = AppColors.textPrimary,
   });
 
@@ -86,11 +85,6 @@ class HeaderIconButton extends StatelessWidget {
   final VoidCallback? onTap;
   final String? semanticLabel;
   final double size;
-
-  /// Lucide draws its strokes as a font here, so the web's `strokeWidth` maps
-  /// to optical weight rather than an exact stroke — it is kept as a field so
-  /// active/inactive states stay expressible.
-  final double strokeWidth;
   final Color color;
 
   @override
@@ -103,7 +97,6 @@ class HeaderIconButton extends StatelessWidget {
           icon,
           size: size,
           color: color,
-          weight: strokeWidth * 200,
           semanticLabel: semanticLabel,
         ),
       ),

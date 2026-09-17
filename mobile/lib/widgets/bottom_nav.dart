@@ -84,8 +84,10 @@ class _NavItem extends StatelessWidget {
         child: Icon(
           icon,
           size: 24,
+          // The web also thickens the active icon's stroke (2 vs 1.5).
+          // Lucide ships here as a non-variable icon font, so weight is not
+          // adjustable and the colour carries the state on its own.
           color: active ? AppColors.primary : AppColors.textSecondary,
-          weight: active ? 400 : 300,
           semanticLabel: label,
         ),
       ),

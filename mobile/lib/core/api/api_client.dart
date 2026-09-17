@@ -108,12 +108,10 @@ class ApiClient {
   void _reportUnauthorized() {
     if (_handlingUnauthorized) return;
     _handlingUnauthorized = true;
-    final handler = onUnauthorized;
-    if (handler == null) {
-      _handlingUnauthorized = false;
-      return;
-    }
-    handler();
+    // The token is dead either way, so it goes before anyone is notified —
+    // src/lib/api.ts clears it in the same breath as its redirect.
+    tokenStorage.clear();
+    onUnauthorized?.call();
     // Re-arm only after the current frame's failures have all gone through,
     // so a burst of parallel 401s still counts as one expired session.
     Future<void>.delayed(const Duration(seconds: 1), () {

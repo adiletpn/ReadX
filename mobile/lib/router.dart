@@ -8,7 +8,7 @@ import 'features/auth/login_screen.dart';
 import 'features/auth/register_screen.dart';
 import 'features/auth/reset_password_screen.dart';
 import 'features/common/not_found_screen.dart';
-import 'features/common/splash_screen.dart';
+import 'features/feed/feed_screen.dart';
 
 /// Every path in the app, written once.
 ///
@@ -115,9 +115,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.feed,
-        // Phase 2 replaces this with the feed; until then a signed-in user
-        // lands on the same bootstrap spinner the session resolves behind.
-        builder: (context, state) => const SplashScreen(),
+        builder: (context, state) => const FeedScreen(),
       ),
     ],
   );

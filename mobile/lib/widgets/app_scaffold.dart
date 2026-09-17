@@ -19,6 +19,8 @@ class AppScaffold extends StatelessWidget {
     this.bottomNav,
     this.bottomBar,
     this.floatingActionButton,
+    this.drawer,
+    this.scaffoldKey,
     this.resizeToAvoidBottomInset = true,
   });
 
@@ -36,6 +38,9 @@ class AppScaffold extends StatelessWidget {
 
   /// Синяя круглая кнопка в правом нижнем углу контента.
   final Widget? floatingActionButton;
+
+  final Widget? drawer;
+  final GlobalKey<ScaffoldState>? scaffoldKey;
 
   final bool resizeToAvoidBottomInset;
 
@@ -72,6 +77,9 @@ class AppScaffold extends StatelessWidget {
     );
 
     return Scaffold(
+      key: scaffoldKey,
+      drawer: drawer,
+      drawerScrimColor: const Color(0x99000000),
       backgroundColor: AppColors.bg,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       body: Center(

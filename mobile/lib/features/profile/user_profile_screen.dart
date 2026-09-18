@@ -74,16 +74,30 @@ class UserProfileScreen extends ConsumerWidget {
       ),
       body: switch (profile) {
         AsyncData(:final value) => ListView(
-            padding: const EdgeInsets.fromLTRB(16, 20, 16, 32),
+            padding: const EdgeInsets.fromLTRB(AppMetrics.hPadding, 22, AppMetrics.hPadding, 36),
             children: [
               Column(
                 children: [
-                  UserAvatar(
-                    avatarUrl: value.avatarUrl,
-                    name: value.displayName,
-                    size: 72,
+                  Container(
+                    padding: const EdgeInsets.all(3),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(colors: AppColors.brandGradient),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.glowPrimary,
+                          blurRadius: 28,
+                          spreadRadius: -4,
+                        ),
+                      ],
+                    ),
+                    child: UserAvatar(
+                      avatarUrl: value.avatarUrl,
+                      name: value.displayName,
+                      size: 84,
+                    ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 14),
                   Text(value.displayName, style: AppText.h1),
                   const SizedBox(height: 2),
                   Text(

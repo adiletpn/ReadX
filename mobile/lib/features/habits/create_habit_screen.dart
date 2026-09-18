@@ -6,6 +6,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../core/api/api_exception.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
+import '../../core/theme/surfaces.dart';
 import '../../core/theme/typography.dart';
 import '../../router.dart';
 import '../../widgets/app_header.dart';
@@ -154,7 +155,7 @@ class _CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
+        padding: const EdgeInsets.fromLTRB(AppMetrics.hPadding, 24, AppMetrics.hPadding, 28),
         children: [
           if (_error.isNotEmpty) ...[
             AppErrorBanner(message: _error),
@@ -208,11 +209,7 @@ class _CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
           const SizedBox(height: 24),
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              border: Border.all(color: AppColors.border),
-              borderRadius: BorderRadius.circular(AppMetrics.radiusCard),
-            ),
+            decoration: AppSurfaces.card(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -278,11 +275,7 @@ class _ToggleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        border: Border.all(color: AppColors.border),
-        borderRadius: BorderRadius.circular(AppMetrics.radiusCard),
-      ),
+      decoration: AppSurfaces.card(),
       child: Column(
         children: [
           Row(

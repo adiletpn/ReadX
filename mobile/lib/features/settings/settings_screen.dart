@@ -14,6 +14,7 @@ import '../../config.dart';
 import '../../core/api/api_exception.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
+import '../../core/theme/surfaces.dart';
 import '../../core/theme/typography.dart';
 import '../../models/app_user.dart';
 import '../../router.dart';
@@ -221,7 +222,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
+        padding: const EdgeInsets.fromLTRB(AppMetrics.hPadding, 24, AppMetrics.hPadding, 28),
         children: [
           Center(
             child: Stack(
@@ -336,11 +337,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ],
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              border: Border.all(color: AppColors.border),
-              borderRadius: BorderRadius.circular(AppMetrics.radiusField),
-            ),
+            decoration: AppSurfaces.card(radius: AppMetrics.radiusField),
             child: Row(
               children: [
                 const Expanded(
@@ -425,11 +422,7 @@ class _LinkRow extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          border: Border.all(color: AppColors.border),
-          borderRadius: BorderRadius.circular(AppMetrics.radiusField),
-        ),
+        decoration: AppSurfaces.card(radius: AppMetrics.radiusField),
         child: Row(
           children: [
             Expanded(child: Text(label, style: AppText.field)),

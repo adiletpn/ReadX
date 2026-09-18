@@ -77,7 +77,7 @@ class SharedHabitScreen extends ConsumerWidget {
           : null,
       body: switch (detail) {
         AsyncData(:final value) => ListView(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+            padding: const EdgeInsets.fromLTRB(AppMetrics.hPadding, 16, AppMetrics.hPadding, 28),
             children: [
               _HeaderCard(detail: value),
               const SizedBox(height: 24),

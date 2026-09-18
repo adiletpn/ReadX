@@ -83,12 +83,30 @@ class MyProfileScreen extends ConsumerWidget {
         child: ListView(
           key: const PageStorageKey('profile'),
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(16, 20, 16, 32),
+          padding: const EdgeInsets.fromLTRB(AppMetrics.hPadding, 22, AppMetrics.hPadding, 36),
           children: [
             Column(
               children: [
-                UserAvatar(avatarUrl: user.avatarUrl, name: user.displayName, size: 72),
-                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.all(3),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(colors: AppColors.brandGradient),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.glowPrimary,
+                        blurRadius: 28,
+                        spreadRadius: -4,
+                      ),
+                    ],
+                  ),
+                  child: UserAvatar(
+                    avatarUrl: user.avatarUrl,
+                    name: user.displayName,
+                    size: 84,
+                  ),
+                ),
+                const SizedBox(height: 14),
                 Text(user.displayName, style: AppText.h1),
                 const SizedBox(height: 2),
                 Text(

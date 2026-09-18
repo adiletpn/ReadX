@@ -33,7 +33,7 @@ class LotteryRulesScreen extends ConsumerWidget {
         trailing: const SizedBox(width: 36),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 24, 16, 32),
+        padding: const EdgeInsets.fromLTRB(AppMetrics.hPadding, 24, AppMetrics.hPadding, 36),
         children: [
           const Text(
             'ПРАВИЛА ЕЖЕМЕСЯЧНОГО РОЗЫГРЫША READX',

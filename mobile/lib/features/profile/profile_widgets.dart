@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
+import '../../core/theme/surfaces.dart';
 import '../../models/badge.dart' as models;
 import '../../widgets/badge_tag.dart';
 import '../../widgets/pressable.dart';
@@ -126,8 +127,9 @@ class FollowCounters extends StatelessWidget {
           Text(
             value,
             style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+              fontSize: 19,
+              fontWeight: FontWeight.w700,
+              letterSpacing: -0.5,
               color: AppColors.textPrimary,
               fontFeatures: [FontFeature.tabularFigures()],
             ),
@@ -162,23 +164,20 @@ class CurrentlyReadingCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 20),
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        border: Border.all(color: AppColors.border),
-        borderRadius: BorderRadius.circular(AppMetrics.radiusCard),
-      ),
+      decoration: AppSurfaces.card(),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 44,
-            height: 44,
+            width: 48,
+            height: 48,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: AppColors.bookIconBg,
               borderRadius: BorderRadius.circular(AppMetrics.radiusField),
+              border: Border.all(color: AppColors.primary30),
             ),
-            child: const Icon(LucideIcons.bookOpen, size: 20, color: AppColors.primary),
+            child: const Icon(LucideIcons.bookOpen, size: 22, color: AppColors.primaryBright),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -230,14 +229,26 @@ class CurrentlyReadingCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(999),
-                    child: LinearProgressIndicator(
-                      value: progress,
-                      minHeight: 6,
-                      backgroundColor: AppColors.surfaceHi,
-                      valueColor: AlwaysStoppedAnimation(
-                        done ? AppColors.success : AppColors.primary,
-                      ),
+                    borderRadius: BorderRadius.circular(AppMetrics.radiusChip),
+                    child: Stack(
+                      children: [
+                        Container(height: 8, color: AppColors.surfaceHi),
+                        LayoutBuilder(
+                          builder: (context, box) => AnimatedContainer(
+                            duration: AppDuration.slow,
+                            curve: Curves.easeOutCubic,
+                            height: 8,
+                            width: box.maxWidth * progress,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: done
+                                    ? const [AppColors.success, Color(0xFF7BE495)]
+                                    : AppColors.brandGradient,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -272,16 +283,12 @@ class StatGrid extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       mainAxisSpacing: 10,
       crossAxisSpacing: 10,
-      childAspectRatio: 2.1,
+      childAspectRatio: 1.95,
       children: [
         for (final tile in tiles)
           Container(
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              border: Border.all(color: AppColors.border),
-              borderRadius: BorderRadius.circular(AppMetrics.radiusField),
-            ),
+            decoration: AppSurfaces.card(radius: AppMetrics.radiusField),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -289,8 +296,9 @@ class StatGrid extends StatelessWidget {
                 Text(
                   tile.value,
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: -0.8,
                     color: tile.color ?? AppColors.textPrimary,
                     fontFeatures: const [FontFeature.tabularFigures()],
                   ),

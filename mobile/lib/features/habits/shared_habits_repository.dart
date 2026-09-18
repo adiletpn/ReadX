@@ -4,6 +4,7 @@ import '../../core/api/api_client.dart';
 import '../../core/api/endpoints.dart';
 import '../../core/providers.dart';
 import '../../core/utils/json.dart';
+import '../../models/shared_habit.dart';
 
 class JoinResult {
   const JoinResult({required this.habitId, required this.eligibleLimitReached});
@@ -25,6 +26,12 @@ class SharedHabitsRepository {
   Future<JoinResult> join(int sharedHabitId) async {
     return JoinResult.fromJson(
       asMap(await _api.post(Endpoints.sharedHabitJoin(sharedHabitId))),
+    );
+  }
+
+  Future<SharedHabitDetail> detail(int sharedHabitId) async {
+    return SharedHabitDetail.fromJson(
+      asMap(await _api.get(Endpoints.sharedHabit(sharedHabitId))),
     );
   }
 

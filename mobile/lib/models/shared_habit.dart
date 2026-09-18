@@ -78,3 +78,50 @@ class SharedHabitSummary {
         amICreator: amICreator,
       );
 }
+
+class SharedHabitDetail {
+  const SharedHabitDetail({
+    required this.id,
+    required this.title,
+    required this.isPointEligible,
+    required this.createdBy,
+    required this.memberCount,
+    required this.currentStreak,
+    required this.longestStreak,
+    required this.postId,
+    required this.members,
+    required this.amIMember,
+    required this.myHabitId,
+  });
+
+  final int id;
+  final String title;
+  final bool isPointEligible;
+  final int createdBy;
+  final int memberCount;
+  final int currentStreak;
+  final int longestStreak;
+  final int? postId;
+  final List<SharedHabitMember> members;
+  final bool amIMember;
+  final int? myHabitId;
+
+  bool amICreator(int? userId) => userId != null && userId == createdBy;
+
+  bool completedTodayFor(int? userId) =>
+      userId != null && members.any((m) => m.userId == userId && m.completedToday);
+
+  factory SharedHabitDetail.fromJson(Map<String, dynamic> json) => SharedHabitDetail(
+        id: asInt(json['id']),
+        title: asString(json['title']),
+        isPointEligible: asBool(json['is_point_eligible']),
+        createdBy: asInt(json['created_by']),
+        memberCount: asInt(json['member_count']),
+        currentStreak: asInt(json['current_streak']),
+        longestStreak: asInt(json['longest_streak']),
+        postId: asIntOrNull(json['post_id']),
+        members: mapList(json['members'], SharedHabitMember.fromJson),
+        amIMember: asBool(json['am_i_member']),
+        myHabitId: asIntOrNull(json['my_habit_id']),
+      );
+}

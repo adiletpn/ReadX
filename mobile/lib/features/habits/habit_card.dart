@@ -295,7 +295,9 @@ class _HabitCardState extends State<HabitCard> {
                 children: [
                   SizedBox(
                     height: 24,
-                    width: 24.0 + (shared.members.take(3).length - 1).clamp(0, 2) * 16,
+                    width: shared.members.isEmpty
+                        ? 0
+                        : (shared.members.take(3).length - 1) * 16.0 + 28.0,
                     child: Stack(
                       children: [
                         for (var i = 0; i < shared.members.take(3).length; i++)

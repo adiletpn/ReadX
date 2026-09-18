@@ -9,6 +9,7 @@ import 'features/auth/register_screen.dart';
 import 'features/auth/reset_password_screen.dart';
 import 'features/common/not_found_screen.dart';
 import 'features/feed/feed_screen.dart';
+import 'features/feed/post_detail_screen.dart';
 
 /// Every path in the app, written once.
 ///
@@ -116,6 +117,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.feed,
         builder: (context, state) => const FeedScreen(),
+      ),
+      GoRoute(
+        path: '/post/:id',
+        builder: (context, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '');
+          if (id == null) return const NotFoundScreen();
+          return PostDetailScreen(postId: id);
+        },
       ),
     ],
   );

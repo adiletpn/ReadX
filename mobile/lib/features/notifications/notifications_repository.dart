@@ -23,7 +23,6 @@ final notificationsRepositoryProvider = Provider<NotificationsRepository>(
 class UnreadCountController extends AsyncNotifier<int> {
   @override
   Future<int> build() async {
-    ref.keepAlive();
     try {
       return await ref.read(notificationsRepositoryProvider).unreadCount();
     } on Object {

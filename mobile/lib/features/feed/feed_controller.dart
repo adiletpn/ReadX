@@ -16,7 +16,6 @@ final feedTabProvider = NotifierProvider<FeedTabController, FeedTab>(FeedTabCont
 class FeedController extends AsyncNotifier<List<Post>> {
   @override
   Future<List<Post>> build() async {
-    ref.keepAlive();
     final tab = ref.watch(feedTabProvider);
     return ref.read(postsRepositoryProvider).feed(tab);
   }

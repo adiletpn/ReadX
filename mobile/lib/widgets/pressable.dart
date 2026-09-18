@@ -1,9 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-/// Tap feedback that matches the web, which dims a control with
-/// `active:opacity-60` instead of drawing a Material ripple. Buttons on
-/// filled backgrounds use 0.8, everything else 0.6 — the same two values the
-/// React components use.
+import '../core/theme/spacing.dart';
+
 class Pressable extends StatefulWidget {
   const Pressable({
     super.key,
@@ -11,6 +9,7 @@ class Pressable extends StatefulWidget {
     this.onTap,
     this.onLongPress,
     this.pressedOpacity = 0.6,
+    this.scale = 1.0,
     this.behavior = HitTestBehavior.opaque,
   });
 
@@ -18,6 +17,7 @@ class Pressable extends StatefulWidget {
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
   final double pressedOpacity;
+  final double scale;
   final HitTestBehavior behavior;
 
   @override
@@ -43,10 +43,15 @@ class _PressableState extends State<Pressable> {
       onTapDown: (_) => _setPressed(true),
       onTapUp: (_) => _setPressed(false),
       onTapCancel: () => _setPressed(false),
-      child: AnimatedOpacity(
-        opacity: _pressed ? widget.pressedOpacity : 1,
-        duration: const Duration(milliseconds: 90),
-        child: widget.child,
+      child: AnimatedScale(
+        scale: _pressed ? widget.scale : 1.0,
+        duration: AppDuration.fast,
+        curve: Curves.easeOut,
+        child: AnimatedOpacity(
+          opacity: _pressed ? widget.pressedOpacity : 1,
+          duration: AppDuration.fast,
+          child: widget.child,
+        ),
       ),
     );
   }

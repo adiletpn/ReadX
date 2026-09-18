@@ -112,7 +112,7 @@ class _DeleteAccountScreenState extends ConsumerState<DeleteAccountScreen> {
             label: _deleting ? 'Deleting…' : 'Delete Account',
             enabled: _password.text.isNotEmpty,
             loading: _deleting,
-            color: AppColors.danger,
+            gradient: const [AppColors.danger, Color(0xFFFF7A5C)],
             onPressed: _delete,
           ),
         ],

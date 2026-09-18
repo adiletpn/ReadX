@@ -9,3 +9,6 @@ const kMediaBase = String.fromEnvironment(
   'READX_MEDIA_BASE',
   defaultValue: 'https://readx.kz',
 );
+
+const kPrivacyUrl = '$kMediaBase/privacy';
+const kTermsUrl = '$kMediaBase/terms';

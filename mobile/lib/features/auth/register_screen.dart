@@ -3,13 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../config.dart';
 import '../../core/api/api_exception.dart';
 import '../../core/theme/colors.dart';
 import '../../router.dart';
 import '../../widgets/app_header.dart';
 import '../../widgets/app_scaffold.dart';
 import '../../widgets/app_text_field.dart';
+import '../../widgets/pressable.dart';
 import '../../widgets/primary_button.dart';
 import '../../widgets/state_views.dart';
 import 'auth_controller.dart';
@@ -215,6 +218,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               style: TextStyle(fontSize: 12, height: 1.5, color: AppColors.textDisabled),
             ),
           ),
+          const SizedBox(height: 8),
+          const _LegalLinks(),
         ],
       ),
     );
@@ -237,6 +242,56 @@ class _FieldHint extends StatelessWidget {
           fontSize: 11,
           color: isError ? AppColors.danger : AppColors.textDisabled,
         ),
+      ),
+    );
+  }
+}
+
+class _LegalLinks extends StatelessWidget {
+  const _LegalLinks();
+
+  static Future<void> _open(String url) async {
+    final uri = Uri.tryParse(url);
+    if (uri == null) return;
+    await launchUrl(uri, mode: LaunchMode.inAppBrowserView);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const linkStyle = TextStyle(
+      fontSize: 12,
+      height: 1.5,
+      fontWeight: FontWeight.w500,
+      color: AppColors.primary,
+    );
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          const Text(
+            'By creating an account you agree to the ',
+            style: TextStyle(fontSize: 12, height: 1.5, color: AppColors.textDisabled),
+          ),
+          Pressable(
+            onTap: () => _open(kTermsUrl),
+            child: const Text('Terms', style: linkStyle),
+          ),
+          const Text(
+            ' and ',
+            style: TextStyle(fontSize: 12, height: 1.5, color: AppColors.textDisabled),
+          ),
+          Pressable(
+            onTap: () => _open(kPrivacyUrl),
+            child: const Text('Privacy Policy', style: linkStyle),
+          ),
+          const Text(
+            '.',
+            style: TextStyle(fontSize: 12, height: 1.5, color: AppColors.textDisabled),
+          ),
+        ],
       ),
     );
   }

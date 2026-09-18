@@ -8,7 +8,9 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../config.dart';
 import '../../core/api/api_exception.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
@@ -352,6 +354,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
           ),
           const SizedBox(height: 24),
+          const Text('ABOUT', style: AppText.overline),
+          const SizedBox(height: 12),
+          _LinkRow(
+            label: 'Privacy Policy',
+            onTap: () => _openExternal(kPrivacyUrl),
+          ),
+          const SizedBox(height: 8),
+          _LinkRow(
+            label: 'Terms of Use',
+            onTap: () => _openExternal(kTermsUrl),
+          ),
+          const SizedBox(height: 24),
           const Text('PRIVACY', style: AppText.overline),
           const SizedBox(height: 12),
           _LinkRow(
@@ -391,6 +405,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       ),
     );
   }
+}
+
+Future<void> _openExternal(String url) async {
+  final uri = Uri.tryParse(url);
+  if (uri == null) return;
+  await launchUrl(uri, mode: LaunchMode.inAppBrowserView);
 }
 
 class _LinkRow extends StatelessWidget {

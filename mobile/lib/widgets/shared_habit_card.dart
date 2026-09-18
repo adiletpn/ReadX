@@ -69,6 +69,8 @@ class _SharedHabitCardState extends ConsumerState<SharedHabitCard> {
     final habit = widget.sharedHabit;
     final shown = habit.members.take(5).toList();
     final extra = (habit.memberCount - shown.length).clamp(0, 99);
+    final stackCount = shown.length + (extra > 0 ? 1 : 0);
+    final stackWidth = stackCount == 0 ? 0.0 : (stackCount - 1) * 20.0 + 28.0;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -139,6 +141,7 @@ class _SharedHabitCardState extends ConsumerState<SharedHabitCard> {
             children: [
               SizedBox(
                 height: 28,
+                width: stackWidth,
                 child: Stack(
                   children: [
                     for (var i = 0; i < shown.length; i++)

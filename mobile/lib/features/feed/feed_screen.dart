@@ -22,7 +22,9 @@ import '../../widgets/shared_habit_card.dart';
 import '../../widgets/state_views.dart';
 import '../../widgets/user_avatar.dart';
 import '../auth/auth_controller.dart';
+import '../moderation/moderation_menu.dart';
 import '../notifications/notifications_repository.dart';
+import '../profile/users_repository.dart';
 import 'feed_controller.dart';
 import 'posts_repository.dart';
 
@@ -145,6 +147,15 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                         post.userId == user?.id ? AppRoutes.profile : AppRoutes.user(post.userId),
                       ),
                       onDelete: () => _delete(post.id),
+                      onMore: () => showModerationMenu(
+                        context,
+                        ref,
+                        target: ReportTarget.post,
+                        targetId: post.id,
+                        authorId: post.userId,
+                        username: post.username,
+                        onBlocked: () => ref.read(feedProvider.notifier).refresh(),
+                      ),
                       sharedHabitCard: post.sharedHabit == null
                           ? null
                           : SharedHabitCard(

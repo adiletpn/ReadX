@@ -19,6 +19,8 @@ import '../../widgets/pressable.dart';
 import '../../widgets/state_views.dart';
 import '../../widgets/user_avatar.dart';
 import '../auth/auth_controller.dart';
+import '../moderation/moderation_menu.dart';
+import 'users_repository.dart';
 import 'profile_widgets.dart';
 import 'user_profile_controller.dart';
 
@@ -52,7 +54,23 @@ class UserProfileScreen extends ConsumerWidget {
           onTap: () => context.pop(),
         ),
         title: 'Profile',
-        trailing: const SizedBox(width: 36),
+        trailing: profile.hasValue
+            ? HeaderIconButton(
+                icon: LucideIcons.ellipsis,
+                semanticLabel: 'More',
+                onTap: () => showModerationMenu(
+                  context,
+                  ref,
+                  target: ReportTarget.user,
+                  targetId: userId,
+                  authorId: userId,
+                  username: profile.value!.username,
+                  onBlocked: () {
+                    if (context.mounted) context.pop();
+                  },
+                ),
+              )
+            : const SizedBox(width: 36),
       ),
       body: switch (profile) {
         AsyncData(:final value) => ListView(

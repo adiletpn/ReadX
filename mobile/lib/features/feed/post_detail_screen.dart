@@ -22,6 +22,8 @@ import '../../widgets/shared_habit_card.dart';
 import '../../widgets/state_views.dart';
 import '../../widgets/user_avatar.dart';
 import '../auth/auth_controller.dart';
+import '../moderation/moderation_menu.dart';
+import '../profile/users_repository.dart';
 import 'post_detail_controller.dart';
 
 class PostDetailScreen extends ConsumerStatefulWidget {
@@ -180,6 +182,15 @@ class _PostDetailScreenState extends ConsumerState<PostDetailScreen> {
                       _inputFocus.requestFocus();
                     },
                     onDelete: () => _deleteComment(value.comments[i].id),
+                    onMore: () => showModerationMenu(
+                      context,
+                      ref,
+                      target: ReportTarget.comment,
+                      targetId: value.comments[i].id,
+                      authorId: value.comments[i].userId,
+                      username: value.comments[i].username,
+                      onBlocked: _controller.reload,
+                    ),
                     onOpenUser: () => _openUser(value.comments[i].userId),
                   ),
             ],
@@ -408,6 +419,7 @@ class _CommentTile extends StatelessWidget {
     required this.onLike,
     required this.onReply,
     required this.onDelete,
+    required this.onMore,
     required this.onOpenUser,
   });
 
@@ -418,6 +430,7 @@ class _CommentTile extends StatelessWidget {
   final VoidCallback onLike;
   final VoidCallback onReply;
   final VoidCallback onDelete;
+  final VoidCallback onMore;
   final VoidCallback onOpenUser;
 
   @override
@@ -480,6 +493,18 @@ class _CommentTile extends StatelessWidget {
                             LucideIcons.trash2,
                             size: 13,
                             color: Color(0x99FF3B30),
+                          ),
+                        ),
+                      )
+                    else
+                      Pressable(
+                        onTap: onMore,
+                        child: const Padding(
+                          padding: EdgeInsets.only(left: 8, top: 4, bottom: 4),
+                          child: Icon(
+                            LucideIcons.ellipsis,
+                            size: 14,
+                            color: AppColors.textSecondary,
                           ),
                         ),
                       ),

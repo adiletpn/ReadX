@@ -19,6 +19,7 @@ class PostCard extends StatefulWidget {
     required this.onComment,
     required this.onOpenUser,
     this.onDelete,
+    this.onMore,
     this.likeBusy = false,
     this.sharedHabitCard,
   });
@@ -29,6 +30,7 @@ class PostCard extends StatefulWidget {
   final VoidCallback onComment;
   final VoidCallback onOpenUser;
   final VoidCallback? onDelete;
+  final VoidCallback? onMore;
   final bool likeBusy;
   final Widget? sharedHabitCard;
 
@@ -191,6 +193,18 @@ class _PostCardState extends State<PostCard> {
                         child: const Padding(
                           padding: EdgeInsets.all(6),
                           child: Icon(LucideIcons.trash2, size: 16, color: AppColors.danger),
+                        ),
+                      )
+                    else if (!_isMine && widget.onMore != null)
+                      Pressable(
+                        onTap: widget.onMore,
+                        child: const Padding(
+                          padding: EdgeInsets.all(6),
+                          child: Icon(
+                            LucideIcons.ellipsis,
+                            size: 16,
+                            color: AppColors.textSecondary,
+                          ),
                         ),
                       ),
                   ],

@@ -12,6 +12,7 @@ import '../../widgets/primary_button.dart';
 import '../../widgets/app_toast.dart';
 import '../../widgets/readx_logo.dart';
 import '../../widgets/state_views.dart';
+import 'auth_background.dart';
 import 'auth_controller.dart';
 
 /// Вход — порт LoginPage.tsx.
@@ -80,7 +81,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.bg,
-      body: Center(
+      body: AuthBackground(
+        child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: AppMetrics.contentWidth),
           child: SafeArea(
@@ -89,17 +91,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const ReadXLogo(height: 36),
-                  const SizedBox(height: 12),
+                  const ReadXLogo(height: 44),
+                  const SizedBox(height: 16),
                   const Text(
                     'Compete. Improve. Win.',
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: 15,
                       color: AppColors.textSecondary,
                       letterSpacing: -0.2,
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 44),
                   if (_error.isNotEmpty) ...[
                     AppErrorBanner(message: _error),
                     const SizedBox(height: 12),
@@ -111,7 +113,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     textInputAction: TextInputAction.next,
                     autocorrect: false,
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 14),
                   AppTextField(
                     controller: _password,
                     hintText: 'Password',
@@ -172,6 +174,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
           ),
         ),
+      ),
       ),
     );
   }

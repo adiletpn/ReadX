@@ -17,6 +17,7 @@ import 'features/points/points_explain_screen.dart';
 import 'features/notifications/notifications_screen.dart';
 import 'features/points/points_screen.dart';
 import 'features/profile/follow_list_screen.dart';
+import 'features/profile/user_profile_screen.dart';
 import 'features/search/search_screen.dart';
 import 'features/feed/post_detail_screen.dart';
 
@@ -170,6 +171,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.notifications,
         builder: (context, state) => const NotificationsScreen(),
+      ),
+      GoRoute(
+        path: '/user/:id',
+        builder: (context, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '');
+          if (id == null) return const NotFoundScreen();
+          return UserProfileScreen(userId: id);
+        },
       ),
       GoRoute(
         path: AppRoutes.search,

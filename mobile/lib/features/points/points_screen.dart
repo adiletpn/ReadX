@@ -60,7 +60,25 @@ class _PointsScreenState extends ConsumerState<PointsScreen> {
                 _ScoreCard(me: value.me, threshold: settings.lotteryThreshold),
                 const SizedBox(height: 16),
                 _QualificationCard(me: value.me, threshold: settings.lotteryThreshold),
-                const SizedBox(height: 20),
+                const SizedBox(height: 8),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Pressable(
+                    onTap: () => context.push(AppRoutes.lotteryRules),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 6),
+                      child: Text(
+                        'Lottery Rules',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
                 _Segmented(
                   monthly: _monthly,
                   onChanged: (v) => setState(() => _monthly = v),

@@ -14,6 +14,7 @@ import 'features/habits/create_habit_screen.dart';
 import 'features/habits/habits_screen.dart';
 import 'features/habits/shared_habit_screen.dart';
 import 'features/points/points_explain_screen.dart';
+import 'features/lottery/lottery_rules_screen.dart';
 import 'features/notifications/notifications_screen.dart';
 import 'features/points/points_screen.dart';
 import 'features/profile/follow_list_screen.dart';
@@ -149,6 +150,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.points,
         builder: (context, state) => const PointsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.lotteryRules,
+        builder: (context, state) => const LotteryRulesScreen(),
       ),
       GoRoute(
         path: AppRoutes.pointsHowItWorks,

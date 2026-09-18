@@ -14,6 +14,7 @@ import 'features/habits/create_habit_screen.dart';
 import 'features/habits/habits_screen.dart';
 import 'features/habits/shared_habit_screen.dart';
 import 'features/points/points_explain_screen.dart';
+import 'features/notifications/notifications_screen.dart';
 import 'features/points/points_screen.dart';
 import 'features/profile/follow_list_screen.dart';
 import 'features/search/search_screen.dart';
@@ -165,6 +166,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           if (id == null) return const NotFoundScreen();
           return FollowListScreen(userId: id, kind: FollowListKind.following);
         },
+      ),
+      GoRoute(
+        path: AppRoutes.notifications,
+        builder: (context, state) => const NotificationsScreen(),
       ),
       GoRoute(
         path: AppRoutes.search,

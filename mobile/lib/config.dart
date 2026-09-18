@@ -1,9 +1,11 @@
-/// The only place base URLs are written down. Nothing else in the app builds
-/// an absolute URL by hand — media paths go through `mediaUrl()`.
 library;
 
-/// Все REST-запросы.
-const kApiBase = 'https://readx.kz/api';
+const kApiBase = String.fromEnvironment(
+  'READX_API_BASE',
+  defaultValue: 'https://readx.kz/api',
+);
 
-/// Префикс для относительных путей `/uploads/...`, которые отдаёт API.
-const kMediaBase = 'https://readx.kz';
+const kMediaBase = String.fromEnvironment(
+  'READX_MEDIA_BASE',
+  defaultValue: 'https://readx.kz',
+);

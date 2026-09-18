@@ -48,7 +48,7 @@ class ErrorState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 80),
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -105,7 +105,7 @@ class EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 80),
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

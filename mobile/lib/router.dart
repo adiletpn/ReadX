@@ -17,6 +17,7 @@ import 'features/points/points_explain_screen.dart';
 import 'features/notifications/notifications_screen.dart';
 import 'features/points/points_screen.dart';
 import 'features/profile/follow_list_screen.dart';
+import 'features/profile/my_profile_screen.dart';
 import 'features/profile/user_profile_screen.dart';
 import 'features/search/search_screen.dart';
 import 'features/feed/post_detail_screen.dart';
@@ -167,6 +168,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           if (id == null) return const NotFoundScreen();
           return FollowListScreen(userId: id, kind: FollowListKind.following);
         },
+      ),
+      GoRoute(
+        path: AppRoutes.profile,
+        builder: (context, state) => const MyProfileScreen(),
       ),
       GoRoute(
         path: AppRoutes.notifications,

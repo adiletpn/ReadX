@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../core/theme/colors.dart';
 import '../core/theme/spacing.dart';
@@ -52,25 +53,50 @@ class ErrorState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Container(
+              width: 62,
+              height: 62,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.danger10,
+                border: Border.all(color: AppColors.danger30),
+              ),
+              child: const Icon(LucideIcons.triangleAlert, size: 26, color: AppColors.danger),
+            ),
+            const SizedBox(height: 18),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 14, color: AppColors.textSecondary),
+              style: const TextStyle(
+                fontSize: 15,
+                height: 1.4,
+                color: AppColors.textSecondary,
+              ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             Pressable(
               onTap: onRetry,
-              pressedOpacity: 0.8,
+              scale: 0.96,
+              pressedOpacity: 0.85,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 13),
                 decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(AppMetrics.radiusField),
+                  gradient: const LinearGradient(colors: AppColors.brandGradient),
+                  borderRadius: BorderRadius.circular(AppMetrics.radiusChip),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: AppColors.glowPrimary,
+                      blurRadius: 22,
+                      spreadRadius: -6,
+                      offset: Offset(0, 6),
+                    ),
+                  ],
                 ),
                 child: Text(
                   retryLabel,
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 15,
                     fontWeight: FontWeight.w600,
                     color: AppColors.textPrimary,
                   ),
@@ -111,22 +137,35 @@ class EmptyState extends StatelessWidget {
           children: [
             if (icon != null) ...[
               Container(
-                width: 64,
-                height: 64,
-                decoration: const BoxDecoration(
-                  color: AppColors.surface,
+                width: 78,
+                height: 78,
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: AppColors.surfaceGradient,
+                  ),
+                  border: Border.all(color: AppColors.borderBright),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: AppColors.glowPrimary,
+                      blurRadius: 32,
+                      spreadRadius: -10,
+                    ),
+                  ],
                 ),
-                child: Icon(icon, size: 28, color: AppColors.textSecondary),
+                child: Icon(icon, size: 30, color: AppColors.primaryBright),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
             ],
             Text(
               title,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                letterSpacing: -0.4,
                 color: AppColors.textPrimary,
               ),
             ),

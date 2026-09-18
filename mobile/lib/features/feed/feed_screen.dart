@@ -7,6 +7,7 @@ import '../../core/api/api_exception.dart';
 import '../../core/busy_set.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
+import '../../core/theme/surfaces.dart';
 import '../../core/theme/typography.dart';
 import '../../router.dart';
 import '../../widgets/app_header.dart';
@@ -14,7 +15,8 @@ import '../../widgets/app_scaffold.dart';
 import '../../widgets/app_toast.dart';
 import '../../widgets/bottom_nav.dart';
 import '../../widgets/confirm_sheet.dart';
-import '../../widgets/loading_spinner.dart';
+import '../../widgets/entrance.dart';
+import '../../widgets/skeleton.dart';
 import '../../widgets/post_card.dart';
 import '../../widgets/pressable.dart';
 import '../../widgets/readx_logo.dart';
@@ -102,15 +104,28 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
       bottomNav: const BottomNav(),
       floatingActionButton: Pressable(
         onTap: () => context.push(AppRoutes.postNew),
-        pressedOpacity: 0.8,
+        scale: 0.9,
+        pressedOpacity: 0.85,
         child: Container(
-          width: 48,
-          height: 48,
+          width: 56,
+          height: 56,
           decoration: const BoxDecoration(
-            color: AppColors.primary,
             shape: BoxShape.circle,
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: AppColors.brandGradient,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x660077FF),
+                blurRadius: 26,
+                spreadRadius: -4,
+                offset: Offset(0, 10),
+              ),
+            ],
           ),
-          child: const Icon(LucideIcons.plus, size: 24, color: AppColors.textPrimary),
+          child: const Icon(LucideIcons.plus, size: 26, color: AppColors.textPrimary),
         ),
       ),
       body: RefreshIndicator(
@@ -137,7 +152,9 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                   itemCount: value.length,
                   itemBuilder: (context, index) {
                     final post = value[index];
-                    return PostCard(
+                    return Entrance(
+                      index: index,
+                      child: PostCard(
                       post: post,
                       currentUserId: user?.id,
                       likeBusy: busy.contains('like-post-${post.id}'),
@@ -164,6 +181,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                                   .read(feedProvider.notifier)
                                   .upsert(post.copyWith(sharedHabit: updated)),
                             ),
+                      ),
                     );
                   },
                 ),
@@ -174,7 +192,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                     onRetry: () => ref.read(feedProvider.notifier).reload(),
                   ),
                 ),
-              _ => const SliverFillRemaining(hasScrollBody: false, child: LoadingState()),
+              _ => const SliverToBoxAdapter(child: FeedSkeleton()),
             },
             const SliverToBoxAdapter(child: SizedBox(height: 24)),
           ],
@@ -238,23 +256,28 @@ class _ComposeRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+      padding: const EdgeInsets.fromLTRB(AppMetrics.hPadding, 16, AppMetrics.hPadding, 14),
       child: Row(
         children: [
-          UserAvatar(avatarUrl: avatarUrl, name: name, size: 40),
+          Container(
+            padding: const EdgeInsets.all(2),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(colors: AppColors.brandGradient),
+            ),
+            child: UserAvatar(avatarUrl: avatarUrl, name: name, size: 40),
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Pressable(
               onTap: () => context.push(AppRoutes.postNew),
+              scale: 0.98,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.border),
-                  borderRadius: BorderRadius.circular(999),
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+                decoration: AppSurfaces.flat(radius: AppMetrics.radiusChip),
                 child: const Text(
-                  "What's new?",
-                  style: TextStyle(fontSize: 14, color: AppColors.textSecondary),
+                  "What's on your mind?",
+                  style: TextStyle(fontSize: 15, color: AppColors.textMuted),
                 ),
               ),
             ),
@@ -273,7 +296,7 @@ class _HintBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+      padding: const EdgeInsets.fromLTRB(AppMetrics.hPadding, 0, AppMetrics.hPadding, 16),
       child: Row(
         children: [
           const Icon(LucideIcons.flame, size: 14, color: AppColors.primary),

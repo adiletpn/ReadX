@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../core/haptics.dart';
 import '../core/theme/colors.dart';
 import '../core/theme/spacing.dart';
+import '../core/theme/surfaces.dart';
 import '../core/utils/media_url.dart';
 import '../models/post.dart';
 import 'animated_like_button.dart';
@@ -52,10 +54,9 @@ class _PostCardState extends State<PostCard> {
     final imageUrl = mediaUrl(post.imageUrl);
 
     return Container(
+      margin: const EdgeInsets.fromLTRB(AppMetrics.hPadding, 0, AppMetrics.hPadding, 12),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: AppColors.border)),
-      ),
+      decoration: AppSurfaces.card(),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -65,12 +66,12 @@ class _PostCardState extends State<PostCard> {
             child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+                border: Border.all(color: AppColors.borderBright),
               ),
               child: UserAvatar(
                 avatarUrl: post.avatarUrl,
                 name: post.username,
-                size: 38,
+                size: 42,
               ),
             ),
           ),
@@ -113,7 +114,8 @@ class _PostCardState extends State<PostCard> {
                   style: const TextStyle(
                     fontSize: 15,
                     height: 1.5,
-                    color: AppColors.textPrimary,
+                    letterSpacing: -0.1,
+                    color: AppColors.textBody,
                   ),
                 ),
                 if (_isLong && !_expanded)
@@ -161,7 +163,10 @@ class _PostCardState extends State<PostCard> {
                     AnimatedLikeButton(
                       liked: post.liked,
                       likes: post.likes,
-                      onTap: widget.onLike,
+                      onTap: () {
+                        Haptics.light();
+                        widget.onLike();
+                      },
                       busy: widget.likeBusy,
                     ),
                     const SizedBox(width: 16),

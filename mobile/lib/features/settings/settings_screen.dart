@@ -14,7 +14,6 @@ import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../../core/theme/typography.dart';
 import '../../models/app_user.dart';
-import '../../router.dart';
 import '../../widgets/app_header.dart';
 import '../../widgets/app_scaffold.dart';
 import '../../widgets/app_switch.dart';
@@ -351,26 +350,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ],
             ),
           ),
-          if (user.isAdmin) ...[
-            const SizedBox(height: 20),
-            Pressable(
-              onTap: () => context.push(AppRoutes.admin),
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  border: Border.all(color: AppColors.border),
-                  borderRadius: BorderRadius.circular(AppMetrics.radiusField),
-                ),
-                child: const Row(
-                  children: [
-                    Expanded(child: Text('Admin Panel', style: AppText.field)),
-                    Icon(LucideIcons.chevronRight, size: 18, color: AppColors.textSecondary),
-                  ],
-                ),
-              ),
-            ),
-          ],
         ],
       ),
     );

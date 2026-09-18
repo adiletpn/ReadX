@@ -10,6 +10,7 @@ import 'features/auth/reset_password_screen.dart';
 import 'features/common/not_found_screen.dart';
 import 'features/feed/create_post_screen.dart';
 import 'features/feed/feed_screen.dart';
+import 'features/habits/create_habit_screen.dart';
 import 'features/habits/habits_screen.dart';
 import 'features/feed/post_detail_screen.dart';
 
@@ -123,6 +124,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.habits,
         builder: (context, state) => const HabitsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.habitNew,
+        builder: (context, state) => const CreateHabitScreen(),
       ),
       GoRoute(
         path: AppRoutes.postNew,

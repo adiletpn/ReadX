@@ -12,6 +12,7 @@ import 'features/feed/create_post_screen.dart';
 import 'features/feed/feed_screen.dart';
 import 'features/habits/create_habit_screen.dart';
 import 'features/habits/habits_screen.dart';
+import 'features/habits/shared_habit_screen.dart';
 import 'features/feed/post_detail_screen.dart';
 
 /// Every path in the app, written once.
@@ -128,6 +129,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.habitNew,
         builder: (context, state) => const CreateHabitScreen(),
+      ),
+      GoRoute(
+        path: '/habits/shared/:id',
+        builder: (context, state) {
+          final id = int.tryParse(state.pathParameters['id'] ?? '');
+          if (id == null) return const NotFoundScreen();
+          return SharedHabitScreen(sharedHabitId: id);
+        },
       ),
       GoRoute(
         path: AppRoutes.postNew,

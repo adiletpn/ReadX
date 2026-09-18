@@ -7,7 +7,11 @@ import '../../core/api/api_exception.dart';
 import '../../core/busy_set.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
+import '../../core/theme/surfaces.dart';
 import '../../core/theme/typography.dart';
+import '../../widgets/entrance.dart';
+import '../../widgets/gradient_text.dart';
+import '../../widgets/skeleton.dart';
 import '../../models/habit.dart';
 import '../../router.dart';
 import '../../widgets/app_header.dart';
@@ -15,7 +19,6 @@ import '../../widgets/app_scaffold.dart';
 import '../../widgets/app_toast.dart';
 import '../../widgets/bottom_nav.dart';
 import '../../widgets/confirm_sheet.dart';
-import '../../widgets/loading_spinner.dart';
 import '../../widgets/pressable.dart';
 import '../../widgets/primary_button.dart';
 import '../../widgets/readx_logo.dart';
@@ -86,7 +89,7 @@ class HabitsScreen extends ConsumerWidget {
         child: ListView(
           key: const PageStorageKey('habits'),
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+          padding: const EdgeInsets.fromLTRB(AppMetrics.hPadding, 16, AppMetrics.hPadding, 28),
           children: [
             _SummaryCard(
               monthlyPoints: user?.monthlyPoints ?? 0,
@@ -153,8 +156,10 @@ class HabitsScreen extends ConsumerWidget {
                 ),
               AsyncData(:final value) => Column(
                   children: [
-                    for (final habit in value)
-                      HabitCard(
+                    for (final (index, habit) in value.indexed)
+                      Entrance(
+                        index: index,
+                        child: HabitCard(
                         key: ValueKey(habit.id),
                         habit: habit,
                         globalStreak: user?.currentStreak ?? 0,
@@ -166,6 +171,7 @@ class HabitsScreen extends ConsumerWidget {
                           AppRoutes.sharedHabit(habit.sharedHabit!.id),
                         ),
                       ),
+                      ),
                   ],
                 ),
               AsyncError(:final error) => ErrorState(
@@ -174,7 +180,7 @@ class HabitsScreen extends ConsumerWidget {
                       : 'Не удалось загрузить привычки',
                   onRetry: () => ref.read(habitsProvider.notifier).reload(),
                 ),
-              _ => const LoadingState(),
+              _ => const ListSkeleton(count: 3, height: 150),
             },
           ],
         ),
@@ -202,11 +208,7 @@ class _SummaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        border: Border.all(color: AppColors.border),
-        borderRadius: BorderRadius.circular(AppMetrics.radiusCard),
-      ),
+      decoration: AppSurfaces.card(radius: AppMetrics.radiusHero, glow: true),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -217,7 +219,7 @@ class _SummaryCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('$monthlyPoints', style: AppText.counter),
+                  AnimatedCounter(value: monthlyPoints, style: AppText.counter),
                   const SizedBox(height: 2),
                   const Text(
                     'Monthly Points',
@@ -235,7 +237,11 @@ class _SummaryCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text('$streak', style: AppText.counter),
+                      GradientText(
+                        '$streak',
+                        style: AppText.counter,
+                        gradient: AppSurfaces.textStreak,
+                      ),
                       const SizedBox(height: 2),
                       const Text(
                         'Day Streak',
@@ -267,12 +273,22 @@ class _SummaryCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           ClipRRect(
-            borderRadius: BorderRadius.circular(999),
-            child: LinearProgressIndicator(
-              value: total == 0 ? 0 : completed / total,
-              minHeight: 6,
-              backgroundColor: AppColors.surfaceHi,
-              valueColor: const AlwaysStoppedAnimation(AppColors.primary),
+            borderRadius: BorderRadius.circular(AppMetrics.radiusChip),
+            child: Stack(
+              children: [
+                Container(height: 8, color: AppColors.surfaceHi),
+                LayoutBuilder(
+                  builder: (context, box) => AnimatedContainer(
+                    duration: AppDuration.slow,
+                    curve: Curves.easeOutCubic,
+                    height: 8,
+                    width: total == 0 ? 0 : box.maxWidth * (completed / total),
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(colors: AppColors.brandGradient),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

@@ -6,13 +6,16 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../core/api/api_exception.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
+import '../../core/theme/surfaces.dart';
 import '../../core/theme/typography.dart';
+import '../../widgets/entrance.dart';
+import '../../widgets/gradient_text.dart';
+import '../../widgets/skeleton.dart';
 import '../../models/leaderboard.dart';
 import '../../router.dart';
 import '../../widgets/app_header.dart';
 import '../../widgets/app_scaffold.dart';
 import '../../widgets/bottom_nav.dart';
-import '../../widgets/loading_spinner.dart';
 import '../../widgets/pressable.dart';
 import '../../widgets/readx_logo.dart';
 import '../../widgets/state_views.dart';
@@ -55,7 +58,7 @@ class _PointsScreenState extends ConsumerState<PointsScreen> {
           AsyncData(:final value) => ListView(
               key: const PageStorageKey('points'),
               physics: const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+              padding: const EdgeInsets.fromLTRB(AppMetrics.hPadding, 16, AppMetrics.hPadding, 28),
               children: [
                 _ScoreCard(me: value.me, threshold: settings.lotteryThreshold),
                 const SizedBox(height: 16),
@@ -93,7 +96,17 @@ class _PointsScreenState extends ConsumerState<PointsScreen> {
                   : 'Не удалось загрузить рейтинг',
               onRetry: () => ref.invalidate(leaderboardProvider),
             ),
-          _ => const LoadingState(),
+          _ => const Padding(
+              padding: EdgeInsets.only(top: 16),
+              child: Column(
+                children: [
+                  CardSkeleton(height: 168),
+                  CardSkeleton(height: 96),
+                  SizedBox(height: 12),
+                  ListSkeleton(count: 4, height: 56),
+                ],
+              ),
+            ),
         },
       ),
     );
@@ -157,11 +170,7 @@ class _ScoreCard extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        border: Border.all(color: AppColors.border),
-        borderRadius: BorderRadius.circular(AppMetrics.radiusCard),
-      ),
+      decoration: AppSurfaces.card(radius: AppMetrics.radiusHero, glow: true),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -172,7 +181,7 @@ class _ScoreCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${me.monthlyPoints}', style: AppText.counter),
+                  AnimatedCounter(value: me.monthlyPoints, style: AppText.display),
                   const SizedBox(height: 2),
                   const Text(
                     'Monthly Points',
@@ -183,9 +192,10 @@ class _ScoreCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
+                  GradientText(
                     '#${me.monthlyRank}',
-                    style: AppText.counter.copyWith(color: AppColors.primary),
+                    style: AppText.display,
+                    gradient: AppSurfaces.textBrand,
                   ),
                   const SizedBox(height: 2),
                   const Text(
@@ -257,11 +267,7 @@ class _QualificationCard extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        border: Border.all(color: AppColors.border),
-        borderRadius: BorderRadius.circular(AppMetrics.radiusCard),
-      ),
+      decoration: AppSurfaces.card(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -282,12 +288,29 @@ class _QualificationCard extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           ClipRRect(
-            borderRadius: BorderRadius.circular(999),
-            child: LinearProgressIndicator(
-              value: progress,
-              minHeight: 6,
-              backgroundColor: AppColors.surfaceHi,
-              valueColor: const AlwaysStoppedAnimation(AppColors.primary),
+            borderRadius: BorderRadius.circular(AppMetrics.radiusChip),
+            child: Stack(
+              children: [
+                Container(height: 10, color: AppColors.surfaceHi),
+                LayoutBuilder(
+                  builder: (context, box) => AnimatedContainer(
+                    duration: AppDuration.slow,
+                    curve: Curves.easeOutCubic,
+                    height: 10,
+                    width: box.maxWidth * progress,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(colors: AppColors.brandGradient),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.glowPrimary,
+                          blurRadius: 14,
+                          spreadRadius: -2,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -306,10 +329,7 @@ class _Segmented extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(AppMetrics.radiusField),
-      ),
+      decoration: AppSurfaces.flat(radius: AppMetrics.radiusChip),
       child: Row(
         children: [
           Expanded(child: _segment('Monthly', monthly, () => onChanged(true))),
@@ -322,12 +342,15 @@ class _Segmented extends StatelessWidget {
   Widget _segment(String label, bool active, VoidCallback onTap) {
     return Pressable(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
+      child: AnimatedContainer(
+        duration: AppDuration.fast,
+        padding: const EdgeInsets.symmetric(vertical: 12),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: active ? AppColors.primary : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
+          gradient: active
+              ? const LinearGradient(colors: AppColors.brandGradient)
+              : null,
+          borderRadius: BorderRadius.circular(AppMetrics.radiusChip),
         ),
         child: Text(
           label,
@@ -362,14 +385,19 @@ class _LeaderRow extends StatelessWidget {
         child: Row(
           children: [
             SizedBox(
-              width: 28,
+              width: 30,
               child: Text(
                 '${entry.rank}',
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textSecondary,
-                  fontFeatures: [FontFeature.tabularFigures()],
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: switch (entry.rank) {
+                    1 => const Color(0xFFFFD75E),
+                    2 => const Color(0xFFC8CDD8),
+                    3 => const Color(0xFFCD8B5A),
+                    _ => AppColors.textMuted,
+                  },
+                  fontFeatures: const [FontFeature.tabularFigures()],
                 ),
               ),
             ),

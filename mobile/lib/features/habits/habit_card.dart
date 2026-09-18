@@ -3,7 +3,9 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
+import '../../core/theme/surfaces.dart';
 import '../../core/theme/typography.dart';
+import '../../widgets/gradient_text.dart';
 import '../../models/habit.dart';
 import '../../widgets/pressable.dart';
 import '../../widgets/user_avatar.dart';
@@ -132,11 +134,13 @@ class _HabitCardState extends State<HabitCard> {
                 duration: Duration(milliseconds: _dragging ? 0 : 180),
                 curve: Curves.easeOut,
                 transform: Matrix4.translationValues(translate, 0, 0),
-                decoration: BoxDecoration(
-                  color: done ? AppColors.habitDoneBg : AppColors.surface,
-                  border: Border.all(color: done ? AppColors.habitDoneBorder : AppColors.border),
-                  borderRadius: BorderRadius.circular(AppMetrics.radiusCard),
-                ),
+                decoration: done
+                    ? BoxDecoration(
+                        color: AppColors.habitDoneBg,
+                        border: Border.all(color: AppColors.habitDoneBorder),
+                        borderRadius: BorderRadius.circular(AppMetrics.radiusCard),
+                      )
+                    : AppSurfaces.card(),
                 child: _content(habit),
               ),
             ),
@@ -241,7 +245,11 @@ class _HabitCardState extends State<HabitCard> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${widget.globalStreak}', style: AppText.counterSm),
+                  GradientText(
+                    '${widget.globalStreak}',
+                    style: AppText.counterSm,
+                    gradient: AppSurfaces.textStreak,
+                  ),
                   const SizedBox(height: 2),
                   const Row(
                     children: [
@@ -346,7 +354,8 @@ class _HabitCardState extends State<HabitCard> {
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           child: Pressable(
             onTap: habit.completedToday || widget.busy ? null : widget.onComplete,
-            pressedOpacity: 0.8,
+            scale: 0.97,
+            pressedOpacity: 0.85,
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 12),
               alignment: Alignment.center,
@@ -398,8 +407,9 @@ class _Chip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
       decoration: BoxDecoration(
-        border: Border.all(color: color.withValues(alpha: 0.4)),
-        borderRadius: BorderRadius.circular(999),
+        color: color.withValues(alpha: 0.12),
+        border: Border.all(color: color.withValues(alpha: 0.35)),
+        borderRadius: BorderRadius.circular(AppMetrics.radiusChip),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

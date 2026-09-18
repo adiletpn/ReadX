@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'offline_banner.dart';
+
 import '../core/theme/colors.dart';
 import '../core/theme/spacing.dart';
 
@@ -62,6 +64,7 @@ class AppScaffold extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ?header,
+        const OfflineBanner(),
         Expanded(child: content),
         if (bottomBar != null)
           Padding(

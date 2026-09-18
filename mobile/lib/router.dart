@@ -8,6 +8,7 @@ import 'features/auth/login_screen.dart';
 import 'features/auth/register_screen.dart';
 import 'features/auth/reset_password_screen.dart';
 import 'features/common/not_found_screen.dart';
+import 'features/feed/create_post_screen.dart';
 import 'features/feed/feed_screen.dart';
 import 'features/feed/post_detail_screen.dart';
 
@@ -117,6 +118,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.feed,
         builder: (context, state) => const FeedScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.postNew,
+        builder: (context, state) => const CreatePostScreen(),
       ),
       GoRoute(
         path: '/post/:id',

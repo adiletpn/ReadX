@@ -19,6 +19,8 @@ import 'features/notifications/notifications_screen.dart';
 import 'features/points/points_screen.dart';
 import 'features/profile/follow_list_screen.dart';
 import 'features/profile/my_profile_screen.dart';
+import 'features/settings/blocked_users_screen.dart';
+import 'features/settings/delete_account_screen.dart';
 import 'features/settings/settings_screen.dart';
 import 'features/profile/user_profile_screen.dart';
 import 'features/search/search_screen.dart';
@@ -182,6 +184,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.settings,
         builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.blockedUsers,
+        builder: (context, state) => const BlockedUsersScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.deleteAccount,
+        builder: (context, state) => const DeleteAccountScreen(),
       ),
       GoRoute(
         path: AppRoutes.notifications,

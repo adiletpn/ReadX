@@ -14,6 +14,7 @@ import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../../core/theme/typography.dart';
 import '../../models/app_user.dart';
+import '../../router.dart';
 import '../../widgets/app_header.dart';
 import '../../widgets/app_scaffold.dart';
 import '../../widgets/app_switch.dart';
@@ -350,7 +351,71 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ],
             ),
           ),
+          const SizedBox(height: 24),
+          const Text('PRIVACY', style: AppText.overline),
+          const SizedBox(height: 12),
+          _LinkRow(
+            label: 'Blocked Users',
+            onTap: () => context.push(AppRoutes.blockedUsers),
+          ),
+          const SizedBox(height: 24),
+          const Text('DANGER ZONE', style: AppText.overline),
+          const SizedBox(height: 12),
+          Pressable(
+            onTap: () => context.push(AppRoutes.deleteAccount),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                border: Border.all(color: AppColors.danger30),
+                borderRadius: BorderRadius.circular(AppMetrics.radiusField),
+              ),
+              child: const Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Delete Account',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.danger,
+                      ),
+                    ),
+                  ),
+                  Icon(LucideIcons.chevronRight, size: 18, color: AppColors.danger),
+                ],
+              ),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class _LinkRow extends StatelessWidget {
+  const _LinkRow({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Pressable(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          border: Border.all(color: AppColors.border),
+          borderRadius: BorderRadius.circular(AppMetrics.radiusField),
+        ),
+        child: Row(
+          children: [
+            Expanded(child: Text(label, style: AppText.field)),
+            const Icon(LucideIcons.chevronRight, size: 18, color: AppColors.textSecondary),
+          ],
+        ),
       ),
     );
   }

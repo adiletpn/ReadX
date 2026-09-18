@@ -18,6 +18,7 @@ import '../../widgets/loading_spinner.dart';
 import '../../widgets/post_card.dart';
 import '../../widgets/pressable.dart';
 import '../../widgets/readx_logo.dart';
+import '../../widgets/shared_habit_card.dart';
 import '../../widgets/state_views.dart';
 import '../../widgets/user_avatar.dart';
 import '../auth/auth_controller.dart';
@@ -144,6 +145,14 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                         post.userId == user?.id ? AppRoutes.profile : AppRoutes.user(post.userId),
                       ),
                       onDelete: () => _delete(post.id),
+                      sharedHabitCard: post.sharedHabit == null
+                          ? null
+                          : SharedHabitCard(
+                              sharedHabit: post.sharedHabit!,
+                              onChanged: (updated) => ref
+                                  .read(feedProvider.notifier)
+                                  .upsert(post.copyWith(sharedHabit: updated)),
+                            ),
                     );
                   },
                 ),

@@ -9,6 +9,7 @@ import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../../core/theme/typography.dart';
 import '../../models/comment.dart';
+import '../../models/shared_habit.dart';
 import '../../router.dart';
 import '../../widgets/animated_like_button.dart';
 import '../../widgets/app_header.dart';
@@ -17,6 +18,7 @@ import '../../widgets/app_toast.dart';
 import '../../widgets/confirm_sheet.dart';
 import '../../widgets/loading_spinner.dart';
 import '../../widgets/pressable.dart';
+import '../../widgets/shared_habit_card.dart';
 import '../../widgets/state_views.dart';
 import '../../widgets/user_avatar.dart';
 import '../auth/auth_controller.dart';
@@ -145,6 +147,7 @@ class _PostDetailScreenState extends ConsumerState<PostDetailScreen> {
                 likeBusy: busy.contains('like-post-${widget.postId}'),
                 onLike: _like,
                 onOpenUser: _openUser,
+                onSharedHabitChanged: _controller.setSharedHabit,
               ),
               Container(
                 decoration: const BoxDecoration(
@@ -311,12 +314,14 @@ class _PostBody extends StatelessWidget {
     required this.likeBusy,
     required this.onLike,
     required this.onOpenUser,
+    required this.onSharedHabitChanged,
   });
 
   final PostDetail detail;
   final bool likeBusy;
   final VoidCallback onLike;
   final ValueChanged<int> onOpenUser;
+  final ValueChanged<SharedHabitSummary> onSharedHabitChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -358,6 +363,13 @@ class _PostBody extends StatelessWidget {
             post.content,
             style: const TextStyle(fontSize: 15, height: 1.5, color: AppColors.textPrimary),
           ),
+          if (post.sharedHabit != null) ...[
+            const SizedBox(height: 12),
+            SharedHabitCard(
+              sharedHabit: post.sharedHabit!,
+              onChanged: onSharedHabitChanged,
+            ),
+          ],
           const SizedBox(height: 12),
           Text(post.time, style: AppText.metaSm),
           const Padding(

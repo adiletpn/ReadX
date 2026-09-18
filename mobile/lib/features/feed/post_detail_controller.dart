@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/busy_set.dart';
 import '../../models/comment.dart';
 import '../../models/post.dart';
+import '../../models/shared_habit.dart';
 import 'feed_controller.dart';
 import 'posts_repository.dart';
 
@@ -133,6 +134,14 @@ class PostDetailController extends AsyncNotifier<PostDetail> {
   }
 
   Future<void> deletePost() => ref.read(feedProvider.notifier).deletePost(postId);
+
+  void setSharedHabit(SharedHabitSummary shared) {
+    final detail = state.value;
+    if (detail == null) return;
+    final updated = detail.post.copyWith(sharedHabit: shared);
+    _setPost(updated);
+    ref.read(feedProvider.notifier).upsert(updated);
+  }
 
   void _setPost(Post post) {
     final detail = state.value;

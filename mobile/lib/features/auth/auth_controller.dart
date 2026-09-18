@@ -4,6 +4,17 @@ import '../../core/providers.dart';
 import '../../models/app_user.dart';
 import 'auth_repository.dart';
 
+class SessionExpired extends Notifier<bool> {
+  @override
+  bool build() => false;
+
+  void raise() => state = true;
+
+  void clear() => state = false;
+}
+
+final sessionExpiredProvider = NotifierProvider<SessionExpired, bool>(SessionExpired.new);
+
 /// The session. `null` means signed out; the value is the current user.
 ///
 /// It mirrors `AuthProvider` in src/lib/auth.tsx: on start it looks for a
@@ -18,6 +29,7 @@ class AuthController extends AsyncNotifier<AppUser?> {
     // Any 401 from anywhere in the app ends the session exactly once; the
     // client has already dropped the token by the time this runs.
     ref.read(apiClientProvider).onUnauthorized = () {
+      if (state.value != null) ref.read(sessionExpiredProvider.notifier).raise();
       state = const AsyncData(null);
     };
 

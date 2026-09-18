@@ -9,6 +9,7 @@ import '../../router.dart';
 import '../../widgets/app_text_field.dart';
 import '../../widgets/pressable.dart';
 import '../../widgets/primary_button.dart';
+import '../../widgets/app_toast.dart';
 import '../../widgets/readx_logo.dart';
 import '../../widgets/state_views.dart';
 import 'auth_controller.dart';
@@ -71,6 +72,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(sessionExpiredProvider, (_, expired) {
+      if (!expired) return;
+      AppToast.show(context, 'Session expired, please log in again', isError: true);
+      ref.read(sessionExpiredProvider.notifier).clear();
+    });
+
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: Center(

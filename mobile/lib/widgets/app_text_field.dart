@@ -116,17 +116,27 @@ class _AppTextFieldState extends State<AppTextField> {
     final obscured = widget.obscureText && !_revealed;
 
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 150),
+      duration: AppDuration.fast,
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: _focused ? AppColors.surfaceAlt : AppColors.surface,
         borderRadius: BorderRadius.circular(widget.radius),
         border: Border.all(
+          width: _focused || widget.hasError ? 1.5 : 1,
           color: widget.hasError
               ? AppColors.danger
               : _focused
                   ? AppColors.primary
                   : AppColors.border,
         ),
+        boxShadow: _focused
+            ? const [
+                BoxShadow(
+                  color: AppColors.glowPrimary,
+                  blurRadius: 20,
+                  spreadRadius: -4,
+                ),
+              ]
+            : null,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -155,7 +165,7 @@ class _AppTextFieldState extends State<AppTextField> {
                 isDense: true,
                 border: InputBorder.none,
                 counterText: '',
-                contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                contentPadding: const EdgeInsets.symmetric(vertical: 16),
                 hintText: widget.hintText,
                 hintStyle: AppText.field.copyWith(color: AppColors.textGhost),
               ),

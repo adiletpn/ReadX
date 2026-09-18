@@ -30,7 +30,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
 
   final Widget? trailing;
 
-  static const _slotWidth = 40.0;
+  static const _slotWidth = 42.0;
 
   @override
   Size get preferredSize => const Size.fromHeight(AppMetrics.headerHeight);
@@ -77,7 +77,7 @@ class HeaderIconButton extends StatelessWidget {
     required this.icon,
     required this.onTap,
     this.semanticLabel,
-    this.size = 22,
+    this.size = 19,
     this.color = AppColors.textPrimary,
   });
 
@@ -91,8 +91,13 @@ class HeaderIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Pressable(
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(6),
+      scale: 0.9,
+      child: Container(
+        padding: const EdgeInsets.all(9),
+        decoration: const BoxDecoration(
+          color: AppColors.surface,
+          shape: BoxShape.circle,
+        ),
         child: Icon(
           icon,
           size: size,

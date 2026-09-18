@@ -25,6 +25,10 @@ class ApiClient {
   /// and the router can send the user to /login. Set by the auth layer.
   void Function()? onUnauthorized;
 
+  /// Reachability, reported from real request outcomes rather than from the
+  /// network interface: an interface can be up while nothing is reachable.
+  void Function(bool reachable)? onReachabilityChanged;
+
   /// Guards against several in-flight requests each firing the logout: the
   /// feed alone can have three running when a token expires, and three
   /// redirects in a row leave the router on a blank screen.
@@ -87,8 +91,11 @@ class ApiClient {
     final Response<dynamic> response;
     try {
       response = await run();
+      onReachabilityChanged?.call(true);
     } on DioException catch (e) {
-      throw ApiException.fromDio(e);
+      final failure = ApiException.fromDio(e);
+      if (failure.isNetwork) onReachabilityChanged?.call(false);
+      throw failure;
     }
 
     final status = response.statusCode ?? 0;

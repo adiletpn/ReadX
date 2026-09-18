@@ -1,21 +1,18 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final connectivityProvider = StreamProvider<bool>((ref) async* {
-  final connectivity = Connectivity();
+class NetworkStatus extends Notifier<bool> {
+  @override
+  bool build() => true;
 
-  bool online(List<ConnectivityResult> results) =>
-      results.any((r) => r != ConnectivityResult.none);
-
-  try {
-    yield online(await connectivity.checkConnectivity());
-  } on Object {
-    yield true;
+  void reportReachable() {
+    if (!state) state = true;
   }
 
-  yield* connectivity.onConnectivityChanged.map(online);
-});
+  void reportUnreachable() {
+    if (state) state = false;
+  }
+}
 
-final isOfflineProvider = Provider<bool>((ref) {
-  return ref.watch(connectivityProvider).value == false;
-});
+final networkStatusProvider = NotifierProvider<NetworkStatus, bool>(NetworkStatus.new);
+
+final isOfflineProvider = Provider<bool>((ref) => !ref.watch(networkStatusProvider));

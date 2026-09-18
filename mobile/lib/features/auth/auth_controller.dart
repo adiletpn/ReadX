@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/connectivity.dart';
 import '../../core/providers.dart';
 import '../../models/app_user.dart';
 import 'auth_repository.dart';
@@ -28,7 +29,12 @@ class AuthController extends AsyncNotifier<AppUser?> {
 
     // Any 401 from anywhere in the app ends the session exactly once; the
     // client has already dropped the token by the time this runs.
-    ref.read(apiClientProvider).onUnauthorized = () {
+    final api = ref.read(apiClientProvider);
+    api.onReachabilityChanged = (reachable) {
+      final status = ref.read(networkStatusProvider.notifier);
+      reachable ? status.reportReachable() : status.reportUnreachable();
+    };
+    api.onUnauthorized = () {
       if (state.value != null) ref.read(sessionExpiredProvider.notifier).raise();
       state = const AsyncData(null);
     };

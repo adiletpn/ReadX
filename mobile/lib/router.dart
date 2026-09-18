@@ -15,6 +15,7 @@ import 'features/habits/habits_screen.dart';
 import 'features/habits/shared_habit_screen.dart';
 import 'features/points/points_explain_screen.dart';
 import 'features/points/points_screen.dart';
+import 'features/search/search_screen.dart';
 import 'features/feed/post_detail_screen.dart';
 
 /// Every path in the app, written once.
@@ -147,6 +148,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.pointsHowItWorks,
         builder: (context, state) => const PointsExplainScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.search,
+        builder: (context, state) => const SearchScreen(),
       ),
       GoRoute(
         path: AppRoutes.postNew,

@@ -46,6 +46,12 @@ abstract class Endpoints {
   static String userFollowers(int id) => '/users/$id/followers';
   static String userFollowing(int id) => '/users/$id/following';
 
+  // Moderation and account
+  static const reports = '/reports';
+  static const deleteAccount = '/users/me';
+  static const blockedUsers = '/users/blocked';
+  static String userBlock(int id) => '/users/$id/block';
+
   // Points, settings, notifications
   static const leaderboard = '/points/leaderboard';
   static const settings = '/settings';

@@ -8,6 +8,34 @@ import '../../models/comment.dart';
 import '../../models/post.dart';
 import '../../models/public_profile.dart';
 
+enum ReportTarget {
+  post('post'),
+  comment('comment'),
+  user('user');
+
+  const ReportTarget(this.value);
+
+  final String value;
+}
+
+enum ReportReason {
+  spam('spam', 'Спам или реклама'),
+  harassment('harassment', 'Оскорбления или травля'),
+  hate('hate', 'Язык вражды'),
+  violence('violence', 'Насилие или угрозы'),
+  sexual('sexual', 'Материалы сексуального характера'),
+  selfHarm('self_harm', 'Призывы к самоповреждению'),
+  misinformation('misinformation', 'Ложная информация'),
+  other('other', 'Другое');
+
+  const ReportReason(this.code, this.label);
+
+  final String code;
+  final String label;
+
+  bool get needsDetails => this == ReportReason.other;
+}
+
 class FollowResult {
   const FollowResult({required this.following, required this.followersCount});
 
@@ -109,6 +137,37 @@ class UsersRepository {
 
   Future<List<Comment>> myLikedComments(int userId) async {
     return mapList(await _api.get(Endpoints.myLikedComments(userId)), Comment.fromJson);
+  }
+
+  Future<void> deleteAccount(String password) async {
+    await _api.delete(Endpoints.deleteAccount, body: {'password': password});
+  }
+
+  Future<List<FollowUser>> blockedUsers() async {
+    return mapList(await _api.get(Endpoints.blockedUsers), FollowUser.fromJson);
+  }
+
+  Future<void> block(int userId) async {
+    await _api.post(Endpoints.userBlock(userId));
+  }
+
+  Future<void> unblock(int userId) async {
+    await _api.delete(Endpoints.userBlock(userId));
+  }
+
+  Future<void> report({
+    required ReportTarget target,
+    required int targetId,
+    required ReportReason reason,
+    String? details,
+  }) async {
+    final body = <String, dynamic>{
+      'target_type': target.value,
+      'target_id': targetId,
+      'reason': reason.code,
+    };
+    if (details != null && details.trim().isNotEmpty) body['details'] = details.trim();
+    await _api.post(Endpoints.reports, body: body);
   }
 
   Future<List<Post>> likedPosts() async {

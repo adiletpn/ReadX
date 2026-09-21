@@ -85,7 +85,7 @@ class _CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
         if (!mounted) return;
 
         final message = result.eligibleLimitReached
-            ? "🎉 Shared! Friends can join it from your post now. "
+            ? '🎉 Shared! Friends can join it from your post now. '
                 "(added without points — you're at your 5-habit limit)"
             : '🎉 Shared! Friends can join it from your post now.';
         context.go(AppRoutes.feed);

@@ -69,7 +69,7 @@ class PublicProfile {
     final posts = rawPosts is List
         ? mapList(
             rawPosts
-                .whereType<Map>()
+                .whereType<Map<Object?, Object?>>()
                 .map((p) => {
                       ...asMap(p),
                       'user_id': id,

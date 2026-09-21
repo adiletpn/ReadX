@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -36,7 +38,7 @@ class MyProfileScreen extends ConsumerWidget {
     if (action == null || !context.mounted) return;
 
     if (action == 'settings') {
-      context.push(AppRoutes.settings);
+      unawaited(context.push(AppRoutes.settings));
       return;
     }
 

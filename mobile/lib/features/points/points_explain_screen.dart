@@ -112,7 +112,7 @@ class PointsExplainScreen extends ConsumerWidget {
               labelColor: AppColors.primary,
               background: Color(0x140077FF),
               border: Color(0x260077FF),
-              text: " Every qualified person has an equal chance — "
+              text: ' Every qualified person has an equal chance — '
                   "leaderboard rank doesn't affect lottery odds.",
             ),
           ),

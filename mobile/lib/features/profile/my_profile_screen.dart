@@ -147,15 +147,40 @@ class MyProfileScreen extends ConsumerWidget {
             const SizedBox(height: 20),
             StatGrid(
               tiles: [
-                StatTile(label: 'Total Points', value: '${user.totalPoints}'),
-                StatTile(label: 'Monthly Points', value: '${user.monthlyPoints}'),
-                StatTile(label: 'Posts', value: '${user.postCount}'),
-                StatTile(label: 'Habits', value: '${user.habitCount}'),
-                StatTile(label: 'Current Streak', value: '${user.currentStreak}'),
+                StatTile(
+                  label: 'Total Points',
+                  value: '${user.totalPoints}',
+                  icon: LucideIcons.sparkles,
+                  gradient: AppColors.brandGradient,
+                ),
+                StatTile(
+                  label: 'Current Streak',
+                  value: '${user.currentStreak}',
+                  icon: LucideIcons.flame,
+                  gradient: AppColors.streakGradient,
+                ),
+                StatTile(
+                  label: 'Monthly Points',
+                  value: '${user.monthlyPoints}',
+                  icon: LucideIcons.calendar,
+                  color: AppColors.primaryBright,
+                ),
                 StatTile(
                   label: 'Monthly Rank',
                   value: '#${user.monthlyRank}',
-                  color: AppColors.primary,
+                  icon: LucideIcons.trophy,
+                  color: AppColors.warning,
+                ),
+                StatTile(
+                  label: 'Posts',
+                  value: '${user.postCount}',
+                  icon: LucideIcons.penLine,
+                ),
+                StatTile(
+                  label: 'Habits',
+                  value: '${user.habitCount}',
+                  icon: LucideIcons.target,
+                  color: AppColors.success,
                 ),
               ],
             ),

@@ -262,11 +262,25 @@ class CurrentlyReadingCard extends StatelessWidget {
 }
 
 class StatTile {
-  const StatTile({required this.label, required this.value, this.color});
+  const StatTile({
+    required this.label,
+    required this.value,
+    required this.icon,
+    this.color,
+    this.gradient,
+  });
 
   final String label;
   final String value;
+  final IconData icon;
+
+  /// Красит цифру. Без него цифра белая.
   final Color? color;
+
+  /// Заливает карточку — для двух главных показателей, очков и ранга.
+  final List<Color>? gradient;
+
+  bool get isHero => gradient != null;
 }
 
 class StatGrid extends StatelessWidget {
@@ -283,37 +297,97 @@ class StatGrid extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       mainAxisSpacing: 10,
       crossAxisSpacing: 10,
-      childAspectRatio: 1.95,
+      childAspectRatio: 1.75,
       children: [
-        for (final tile in tiles)
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: AppSurfaces.card(radius: AppMetrics.radiusField),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  tile.value,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: -0.8,
-                    color: tile.color ?? AppColors.textPrimary,
-                    fontFeatures: const [FontFeature.tabularFigures()],
-                  ),
+        for (final tile in tiles) _StatCard(tile: tile),
+      ],
+    );
+  }
+}
+
+class _StatCard extends StatelessWidget {
+  const _StatCard({required this.tile});
+
+  final StatTile tile;
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = tile.gradient?.first ?? tile.color ?? AppColors.primaryBright;
+
+    return Container(
+      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+      decoration: tile.isHero
+          ? BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: tile.gradient!,
+              ),
+              borderRadius: BorderRadius.circular(AppMetrics.radiusCard),
+              boxShadow: [
+                BoxShadow(
+                  color: accent.withValues(alpha: 0.32),
+                  blurRadius: 24,
+                  spreadRadius: -8,
+                  offset: const Offset(0, 8),
                 ),
-                const SizedBox(height: 2),
-                Text(
+              ],
+            )
+          : AppSurfaces.card(radius: AppMetrics.radiusCard),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 24,
+                height: 24,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: tile.isHero
+                      ? AppColors.textPrimary.withValues(alpha: 0.22)
+                      : accent.withValues(alpha: 0.14),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  tile.icon,
+                  size: 13,
+                  color: tile.isHero ? AppColors.textPrimary : accent,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
                   tile.label,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: -0.1,
+                    color: tile.isHero
+                        ? AppColors.textPrimary.withValues(alpha: 0.85)
+                        : AppColors.textMuted,
+                  ),
                 ),
-              ],
+              ),
+            ],
+          ),
+          Text(
+            tile.value,
+            maxLines: 1,
+            style: TextStyle(
+              fontSize: 26,
+              fontWeight: FontWeight.w800,
+              height: 1.0,
+              letterSpacing: -1,
+              color: tile.isHero ? AppColors.textPrimary : (tile.color ?? AppColors.textPrimary),
+              fontFeatures: const [FontFeature.tabularFigures()],
             ),
           ),
-      ],
+        ],
+      ),
     );
   }
 }

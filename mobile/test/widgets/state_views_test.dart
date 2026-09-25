@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:readx/core/theme/colors.dart';
+import 'package:readx/widgets/empty_illustration.dart';
 import 'package:readx/widgets/state_views.dart';
 
 import '../helpers/harness.dart';
@@ -62,6 +63,36 @@ void main() {
       await pumpWidgetUnderTest(tester, const EmptyState(title: 'Пока пусто'));
 
       expect(find.byType(Icon), findsNothing);
+    });
+
+    testWidgets('the illustrated variant draws the book stack instead of an icon', (tester) async {
+      await pumpWidgetUnderTest(
+        tester,
+        const EmptyState(
+          illustrated: true,
+          title: 'No habits yet',
+          subtitle: 'Create your first habit to start tracking.',
+          icon: LucideIcons.flame,
+        ),
+      );
+
+      expect(find.byType(BookStackIllustration), findsOneWidget);
+      expect(find.byIcon(LucideIcons.flame), findsNothing);
+      expect(find.text('No habits yet'), findsOneWidget);
+    });
+
+    testWidgets('the illustration fits a 4.7 inch screen', (tester) async {
+      await pumpWidgetUnderTest(
+        tester,
+        const EmptyState(
+          illustrated: true,
+          title: 'No posts yet',
+          subtitle: 'Be the first to share something!',
+        ),
+        surface: const Size(320, 568),
+      );
+
+      expect(tester.takeException(), isNull);
     });
 
     testWidgets('an action widget is placed under the text', (tester) async {

@@ -48,14 +48,14 @@ void main() {
   testWidgets('the tab for the current route is the blue one', (tester) async {
     await _pumpNavAt(tester, AppRoutes.habits);
 
-    expect(_iconColour(tester, LucideIcons.target), AppColors.primary);
+    expect(_iconColour(tester, LucideIcons.target), AppColors.primaryBright);
     expect(_iconColour(tester, LucideIcons.house), AppColors.textMuted);
   });
 
   testWidgets('settings still highlights the profile tab', (tester) async {
     await _pumpNavAt(tester, AppRoutes.settings);
 
-    expect(_iconColour(tester, LucideIcons.user), AppColors.primary);
+    expect(_iconColour(tester, LucideIcons.user), AppColors.primaryBright);
   });
 
   testWidgets('tapping a tab navigates to it', (tester) async {
@@ -65,7 +65,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(router.state.matchedLocation, AppRoutes.points);
-    expect(_iconColour(tester, LucideIcons.trophy), AppColors.primary);
+    expect(_iconColour(tester, LucideIcons.trophy), AppColors.primaryBright);
   });
 
   testWidgets('every tab carries its label for VoiceOver', (tester) async {
@@ -73,5 +73,13 @@ void main() {
 
     final labels = tester.widgetList<Icon>(find.byType(Icon)).map((i) => i.semanticLabel).toList();
     expect(labels, containsAll(<String>['Feed', 'Habits', 'Points', 'Profile']));
+  });
+
+  testWidgets('the label is written under each icon, not only announced', (tester) async {
+    await _pumpNavAt(tester, AppRoutes.feed);
+
+    for (final label in ['Feed', 'Habits', 'Points', 'Profile']) {
+      expect(find.text(label), findsOneWidget, reason: label);
+    }
   });
 }

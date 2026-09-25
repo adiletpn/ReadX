@@ -8,9 +8,6 @@ import '../core/theme/spacing.dart';
 import '../router.dart';
 import 'pressable.dart';
 
-/// Four tabs — Home, Target, Trophy, User — on a 64 pt bar with a hairline on
-/// top, matching BottomNav.tsx. The active icon is blue and drawn heavier;
-/// Settings counts as part of the Profile tab, the same way the web does it.
 class BottomNav extends StatelessWidget {
   const BottomNav({super.key});
 
@@ -19,56 +16,60 @@ class BottomNav extends StatelessWidget {
     final location = GoRouterState.of(context).matchedLocation;
     final bottomInset = MediaQuery.paddingOf(context).bottom;
 
-    return Container(
-      height: AppMetrics.bottomNavHeight + bottomInset,
-      padding: EdgeInsets.only(bottom: bottomInset, left: 8, right: 8),
-      decoration: const BoxDecoration(
-        color: AppColors.bg,
-        border: Border(top: BorderSide(color: AppColors.border)),
-        boxShadow: [
-          BoxShadow(color: Color(0x66000000), blurRadius: 24, offset: Offset(0, -6)),
-        ],
+    void go(String path) {
+      Haptics.tap();
+      context.go(path);
+    }
+
+    return Padding(
+      padding: EdgeInsets.only(
+        left: AppMetrics.hPadding,
+        right: AppMetrics.hPadding,
+        bottom: bottomInset > 0 ? bottomInset - 6 : 10,
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _NavItem(
-            icon: LucideIcons.house,
-            label: 'Feed',
-            active: location == AppRoutes.feed,
-            onTap: () {
-              Haptics.tap();
-              context.go(AppRoutes.feed);
-            },
+      child: Container(
+        height: AppMetrics.bottomNavHeight,
+        padding: const EdgeInsets.symmetric(horizontal: 6),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: AppColors.surfaceGradient,
           ),
-          _NavItem(
-            icon: LucideIcons.target,
-            label: 'Habits',
-            active: location == AppRoutes.habits,
-            onTap: () {
-              Haptics.tap();
-              context.go(AppRoutes.habits);
-            },
-          ),
-          _NavItem(
-            icon: LucideIcons.trophy,
-            label: 'Points',
-            active: location == AppRoutes.points,
-            onTap: () {
-              Haptics.tap();
-              context.go(AppRoutes.points);
-            },
-          ),
-          _NavItem(
-            icon: LucideIcons.user,
-            label: 'Profile',
-            active: location == AppRoutes.profile || location == AppRoutes.settings,
-            onTap: () {
-              Haptics.tap();
-              context.go(AppRoutes.profile);
-            },
-          ),
-        ],
+          borderRadius: BorderRadius.circular(AppMetrics.radiusNav),
+          border: Border.all(color: AppColors.borderBright),
+          boxShadow: const [
+            BoxShadow(color: Color(0x73000000), blurRadius: 28, offset: Offset(0, 10)),
+          ],
+        ),
+        child: Row(
+          children: [
+            _NavItem(
+              icon: LucideIcons.house,
+              label: 'Feed',
+              active: location == AppRoutes.feed,
+              onTap: () => go(AppRoutes.feed),
+            ),
+            _NavItem(
+              icon: LucideIcons.target,
+              label: 'Habits',
+              active: location == AppRoutes.habits,
+              onTap: () => go(AppRoutes.habits),
+            ),
+            _NavItem(
+              icon: LucideIcons.trophy,
+              label: 'Points',
+              active: location == AppRoutes.points,
+              onTap: () => go(AppRoutes.points),
+            ),
+            _NavItem(
+              icon: LucideIcons.user,
+              label: 'Profile',
+              active: location == AppRoutes.profile || location == AppRoutes.settings,
+              onTap: () => go(AppRoutes.profile),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -89,22 +90,45 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Pressable(
-      onTap: onTap,
-      scale: 0.9,
-      child: AnimatedContainer(
-        duration: AppDuration.medium,
-        curve: Curves.easeOutCubic,
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
-        decoration: BoxDecoration(
-          color: active ? AppColors.primary10 : Colors.transparent,
-          borderRadius: BorderRadius.circular(AppMetrics.radiusChip),
-        ),
-        child: Icon(
-          icon,
-          size: 23,
-          color: active ? AppColors.primary : AppColors.textMuted,
-          semanticLabel: label,
+    final tint = active ? AppColors.primaryBright : AppColors.textMuted;
+
+    return Expanded(
+      child: Pressable(
+        onTap: onTap,
+        scale: 0.92,
+        pressedOpacity: 0.75,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 3),
+          child: AnimatedContainer(
+            duration: AppDuration.medium,
+            curve: Curves.easeOutCubic,
+            decoration: BoxDecoration(
+              color: active ? AppColors.primary10 : const Color(0x00000000),
+              borderRadius: BorderRadius.circular(AppMetrics.radiusNavItem),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedScale(
+                  scale: active ? 1.06 : 1,
+                  duration: AppDuration.medium,
+                  curve: Curves.easeOutBack,
+                  child: Icon(icon, size: 21, color: tint, semanticLabel: label),
+                ),
+                const SizedBox(height: 3),
+                AnimatedDefaultTextStyle(
+                  duration: AppDuration.medium,
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: active ? FontWeight.w700 : FontWeight.w500,
+                    letterSpacing: -0.1,
+                    color: tint,
+                  ),
+                  child: Text(label),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

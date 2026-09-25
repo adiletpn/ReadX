@@ -10,7 +10,7 @@ void main() {
 
     test('the bars keep the heights the layout is built around', () {
       expect(AppMetrics.headerHeight, 56);
-      expect(AppMetrics.bottomNavHeight, 68);
+      expect(AppMetrics.bottomNavHeight, 64);
     });
 
     test('a scroll view clears the tab bar with room to spare', () {
@@ -28,6 +28,11 @@ void main() {
 
     test('the chip radius is large enough to always read as a pill', () {
       expect(AppMetrics.radiusChip, greaterThanOrEqualTo(999));
+    });
+
+    test('the tab bar corners are softer than the item it highlights', () {
+      expect(AppMetrics.radiusNav, greaterThan(AppMetrics.radiusNavItem));
+      expect(AppMetrics.radiusNavItem, greaterThan(AppMetrics.radiusField * 0.8));
     });
 
     test('the content column still fits the narrowest iPhone after padding', () {

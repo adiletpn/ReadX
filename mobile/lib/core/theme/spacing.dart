@@ -3,7 +3,7 @@ abstract class AppMetrics {
   static const hPadding = 18.0;
 
   static const headerHeight = 56.0;
-  static const bottomNavHeight = 68.0;
+  static const bottomNavHeight = 64.0;
   static const bottomContentPadding = 88.0;
   static const toastBottom = 100.0;
 
@@ -11,6 +11,8 @@ abstract class AppMetrics {
   static const radiusCard = 20.0;
   static const radiusField = 14.0;
   static const radiusChip = 999.0;
+  static const radiusNav = 26.0;
+  static const radiusNavItem = 17.0;
 }
 
 abstract class AppDuration {

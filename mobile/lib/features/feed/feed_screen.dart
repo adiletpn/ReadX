@@ -142,6 +142,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
               AsyncData(:final value) when value.isEmpty => SliverFillRemaining(
                   hasScrollBody: false,
                   child: EmptyState(
+                    illustrated: true,
                     title: 'No posts yet',
                     subtitle: tab == FeedTab.following
                         ? 'Follow people to see their posts here!'

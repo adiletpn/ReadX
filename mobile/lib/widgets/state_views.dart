@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../core/theme/colors.dart';
 import '../core/theme/spacing.dart';
 import '../core/theme/typography.dart';
+import 'empty_illustration.dart';
 import 'pressable.dart';
 
 /// Inline error block used on forms: `bg-[#FF3B30]/10`, a 30 % red hairline,
@@ -120,12 +121,17 @@ class EmptyState extends StatelessWidget {
     this.subtitle,
     this.icon,
     this.action,
+    this.illustrated = false,
   });
 
   final String title;
   final String? subtitle;
   final IconData? icon;
   final Widget? action;
+
+  /// Заменяет кружок с иконкой на стопку книг — для главных пустых экранов,
+  /// где, кроме этого блока, на странице нет ничего.
+  final bool illustrated;
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +141,10 @@ class EmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (icon != null) ...[
+            if (illustrated) ...[
+              const BookStackIllustration(),
+              const SizedBox(height: 16),
+            ] else if (icon != null) ...[
               Container(
                 width: 78,
                 height: 78,

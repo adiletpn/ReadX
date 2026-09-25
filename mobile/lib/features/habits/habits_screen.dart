@@ -143,7 +143,7 @@ class HabitsScreen extends ConsumerWidget {
             const SizedBox(height: 16),
             switch (habits) {
               AsyncData(:final value) when value.isEmpty => EmptyState(
-                  icon: LucideIcons.flame,
+                  illustrated: true,
                   title: 'No habits yet',
                   subtitle: 'Create your first habit to start tracking.',
                   action: SizedBox(

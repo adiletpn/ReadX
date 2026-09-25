@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:readx/core/theme/colors.dart';
+import 'package:readx/widgets/pressable.dart';
 import 'package:readx/widgets/section_header.dart';
 
 import '../helpers/harness.dart';
@@ -92,6 +93,27 @@ void main() {
 
       await tester.tap(find.text('Blocked'));
       expect(taps, 1);
+    });
+
+    testWidgets('dims under the finger, because the theme kills ink effects', (tester) async {
+      await pumpWidgetUnderTest(
+        tester,
+        SettingsRow(icon: LucideIcons.userX, label: 'Blocked', onTap: () {}),
+      );
+
+      expect(find.byType(Pressable), findsOneWidget);
+      expect(find.byType(InkWell), findsNothing);
+
+      final gesture = await tester.press(find.text('Blocked'));
+      await tester.pumpAndSettle();
+
+      expect(
+        tester.widget<AnimatedOpacity>(find.byType(AnimatedOpacity)).opacity,
+        lessThan(1),
+      );
+
+      await gesture.up();
+      await tester.pumpAndSettle();
     });
 
     testWidgets('an optional subtitle explains the row', (tester) async {

@@ -3,6 +3,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../core/theme/colors.dart';
 import '../core/theme/typography.dart';
+import 'pressable.dart';
 
 class SectionHeader extends StatelessWidget {
   const SectionHeader({
@@ -105,8 +106,12 @@ class SettingsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    // Pressable, not InkWell: the theme turns every Material ink effect off so
+    // taps feel like the web's `active:opacity-60`, which would leave an
+    // InkWell row with no touch feedback at all.
+    return Pressable(
       onTap: onTap,
+      pressedOpacity: 0.55,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
         child: Row(

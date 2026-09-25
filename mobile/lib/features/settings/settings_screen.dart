@@ -25,6 +25,7 @@ import '../../widgets/app_text_field.dart';
 import '../../widgets/loading_spinner.dart';
 import '../../widgets/pressable.dart';
 import '../../widgets/primary_button.dart';
+import '../../widgets/section_header.dart';
 import '../../widgets/state_views.dart';
 import '../../widgets/user_avatar.dart';
 import '../auth/auth_controller.dart';
@@ -287,20 +288,25 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             const AppSuccessBanner(message: 'Settings saved successfully!'),
             const SizedBox(height: 16),
           ],
-          const Text('ACCOUNT', style: AppText.overline),
-          const SizedBox(height: 12),
+          const SectionHeader(icon: LucideIcons.user, label: 'ACCOUNT'),
           _Field(label: 'Nickname', controller: _username, maxLength: 30),
           _Field(label: 'Name', controller: _name, capitalize: true),
           _Field(label: 'Surname', controller: _surname, capitalize: true),
           _Field(label: 'Bio', controller: _bio, maxLength: 500, maxLines: 3),
           const SizedBox(height: 20),
-          const Text('SOCIAL LINKS', style: AppText.overline),
-          const SizedBox(height: 12),
+          const SectionHeader(
+            icon: LucideIcons.link,
+            label: 'SOCIAL LINKS',
+            color: AppColors.cyan,
+          ),
           _Field(label: 'Instagram', controller: _instagram, maxLength: 50),
           _Field(label: 'Telegram', controller: _telegram, maxLength: 50),
           const SizedBox(height: 20),
-          const Text('CURRENTLY READING', style: AppText.overline),
-          const SizedBox(height: 12),
+          const SectionHeader(
+            icon: LucideIcons.bookOpen,
+            label: 'CURRENTLY READING',
+            color: AppColors.warning,
+          ),
           _Field(label: 'Book', controller: _bookName, maxLength: 150),
           _Field(label: 'Author', controller: _bookAuthor, maxLength: 150),
           Row(
@@ -350,51 +356,58 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
           ),
           const SizedBox(height: 24),
-          const Text('ABOUT', style: AppText.overline),
-          const SizedBox(height: 12),
-          _LinkRow(
-            label: 'Privacy Policy',
-            onTap: () => _openExternal(kPrivacyUrl),
-          ),
-          const SizedBox(height: 8),
-          _LinkRow(
-            label: 'Terms of Use',
-            onTap: () => _openExternal(kTermsUrl),
+          const SectionHeader(icon: LucideIcons.info, label: 'ABOUT'),
+          SettingsGroup(
+            children: [
+              SettingsRow(
+                icon: LucideIcons.shieldCheck,
+                label: 'Privacy Policy',
+                subtitle: 'What we collect and how to delete it',
+                onTap: () => _openExternal(kPrivacyUrl),
+              ),
+              SettingsRow(
+                icon: LucideIcons.scrollText,
+                label: 'Terms of Use',
+                subtitle: 'Community rules and the lottery',
+                onTap: () => _openExternal(kTermsUrl),
+              ),
+            ],
           ),
           const SizedBox(height: 24),
-          const Text('PRIVACY', style: AppText.overline),
-          const SizedBox(height: 12),
-          _LinkRow(
-            label: 'Blocked Users',
-            onTap: () => context.push(AppRoutes.blockedUsers),
+          const SectionHeader(
+            icon: LucideIcons.lock,
+            label: 'PRIVACY',
+            color: AppColors.success,
+          ),
+          SettingsGroup(
+            children: [
+              SettingsRow(
+                icon: LucideIcons.userX,
+                label: 'Blocked Users',
+                subtitle: 'People you have hidden from your feed',
+                onTap: () => context.push(AppRoutes.blockedUsers),
+              ),
+            ],
           ),
           const SizedBox(height: 24),
-          const Text('DANGER ZONE', style: AppText.overline),
-          const SizedBox(height: 12),
-          Pressable(
-            onTap: () => context.push(AppRoutes.deleteAccount),
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                border: Border.all(color: AppColors.danger30),
-                borderRadius: BorderRadius.circular(AppMetrics.radiusField),
-              ),
-              child: const Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Delete Account',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.danger,
-                      ),
-                    ),
-                  ),
-                  Icon(LucideIcons.chevronRight, size: 18, color: AppColors.danger),
-                ],
-              ),
+          const SectionHeader(
+            icon: LucideIcons.triangleAlert,
+            label: 'DANGER ZONE',
+            color: AppColors.danger,
+          ),
+          Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              color: AppColors.danger10,
+              border: Border.all(color: AppColors.danger30),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: SettingsRow(
+              icon: LucideIcons.trash2,
+              label: 'Delete Account',
+              subtitle: 'Permanent. Posts, habits and points go with it.',
+              tint: AppColors.danger,
+              onTap: () => context.push(AppRoutes.deleteAccount),
             ),
           ),
         ],
@@ -407,30 +420,6 @@ Future<void> _openExternal(String url) async {
   final uri = Uri.tryParse(url);
   if (uri == null) return;
   await launchUrl(uri, mode: LaunchMode.inAppBrowserView);
-}
-
-class _LinkRow extends StatelessWidget {
-  const _LinkRow({required this.label, required this.onTap});
-
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Pressable(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: AppSurfaces.card(radius: AppMetrics.radiusField),
-        child: Row(
-          children: [
-            Expanded(child: Text(label, style: AppText.field)),
-            const Icon(LucideIcons.chevronRight, size: 18, color: AppColors.textSecondary),
-          ],
-        ),
-      ),
-    );
-  }
 }
 
 class _Field extends StatelessWidget {

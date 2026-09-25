@@ -9,6 +9,7 @@ Future<void> pumpWidgetUnderTest(
   Widget child, {
   List<Override> overrides = const [],
   Size surface = const Size(390, 844),
+  double textScale = 1.0,
 }) async {
   await tester.binding.setSurfaceSize(surface);
   addTearDown(() => tester.binding.setSurfaceSize(null));
@@ -19,6 +20,12 @@ Future<void> pumpWidgetUnderTest(
       child: MaterialApp(
         theme: AppTheme.build(),
         themeMode: ThemeMode.dark,
+        builder: (context, inner) => MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaler: TextScaler.linear(textScale),
+          ),
+          child: inner!,
+        ),
         home: Scaffold(body: child),
       ),
     ),

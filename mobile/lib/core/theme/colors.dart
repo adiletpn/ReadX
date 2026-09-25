@@ -32,14 +32,14 @@ abstract class AppColors {
   static const success15 = Color(0x2630D158);
   static const danger10 = Color(0x1AFF453A);
   static const danger30 = Color(0x4DFF453A);
-  static const habitDoneBg = Color(0xFF0B1F14);
-  static const habitDoneBorder = Color(0xFF1E4430);
-  static const bookIconBg = Color(0xFF12203A);
+  static const habitDoneBg = Color(0xFF16301F);
+  static const habitDoneBorder = Color(0xFF2E5C42);
+  static const bookIconBg = Color(0xFF1F3150);
 
   static const brandGradient = [primary, cyan];
   static const streakGradient = [warning, ember];
-  static const surfaceGradient = [Color(0xFF141821), Color(0xFF0E1117)];
+  static const surfaceGradient = [Color(0xFF242832), Color(0xFF1B1E25)];
 
-  static const glowPrimary = Color(0x330077FF);
-  static const glowWarning = Color(0x33FF9F0A);
+  static const glowPrimary = Color(0x3D0077FF);
+  static const glowWarning = Color(0x3DFF9F0A);
 }

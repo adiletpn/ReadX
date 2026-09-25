@@ -16,8 +16,16 @@ void main() {
 
       final decoration =
           tester.widget<Container>(find.byType(Container).first).decoration! as BoxDecoration;
-      expect(decoration.color, AppColors.bg);
       expect((decoration.border! as Border).bottom.color, AppColors.border);
+    });
+
+    testWidgets('has no fill, so the ambient gradient runs unbroken behind it', (tester) async {
+      await pumpWidgetUnderTest(tester, const AppHeader(title: 'Настройки'));
+
+      final decoration =
+          tester.widget<Container>(find.byType(Container).first).decoration! as BoxDecoration;
+      expect(decoration.color, isNull);
+      expect(decoration.gradient, isNull);
     });
 
     testWidgets('a long title is ellipsised rather than overflowing', (tester) async {

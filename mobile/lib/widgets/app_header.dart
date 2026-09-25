@@ -42,8 +42,10 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       height: AppMetrics.headerHeight + topInset,
       padding: EdgeInsets.only(top: topInset, left: AppMetrics.hPadding, right: AppMetrics.hPadding),
+      // No fill: the ambient gradient behind the scaffold has to run unbroken
+      // from the status bar down. An opaque bar only spans the 420 pt content
+      // column, which leaves a lit gutter either side of it on a wide iPhone.
       decoration: const BoxDecoration(
-        color: AppColors.bg,
         border: Border(bottom: BorderSide(color: AppColors.border)),
       ),
       child: Row(

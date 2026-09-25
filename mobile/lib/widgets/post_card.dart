@@ -160,35 +160,47 @@ class _PostCardState extends State<PostCard> {
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    AnimatedLikeButton(
-                      liked: post.liked,
-                      likes: post.likes,
-                      onTap: () {
-                        Haptics.light();
-                        widget.onLike();
-                      },
-                      busy: widget.likeBusy,
+                    // Flexible, not a bare Row: the counters are the only part
+                    // of the card whose width the server decides, and a reader
+                    // running iOS at a large text size scales them further. A
+                    // fixed row turns that into a striped overflow box.
+                    Flexible(
+                      child: AnimatedLikeButton(
+                        liked: post.liked,
+                        likes: post.likes,
+                        onTap: () {
+                          Haptics.light();
+                          widget.onLike();
+                        },
+                        busy: widget.likeBusy,
+                      ),
                     ),
                     const SizedBox(width: 16),
-                    Pressable(
-                      onTap: widget.onComment,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            LucideIcons.messageCircle,
-                            size: 18,
-                            color: AppColors.textSecondary,
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            '${post.commentsCount}',
-                            style: const TextStyle(
-                              fontSize: 14,
+                    Flexible(
+                      child: Pressable(
+                        onTap: widget.onComment,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              LucideIcons.messageCircle,
+                              size: 18,
                               color: AppColors.textSecondary,
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 6),
+                            Flexible(
+                              child: Text(
+                                '${post.commentsCount}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     const Spacer(),

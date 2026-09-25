@@ -93,12 +93,16 @@ class _AnimatedLikeButtonState extends State<AnimatedLikeButton>
               ),
             ),
             const SizedBox(width: 6),
-            Text(
-              '${widget.likes}',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: widget.liked ? FontWeight.w500 : FontWeight.normal,
-                color: color,
+            Flexible(
+              child: Text(
+                '${widget.likes}',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: widget.liked ? FontWeight.w500 : FontWeight.normal,
+                  color: color,
+                ),
               ),
             ),
           ],

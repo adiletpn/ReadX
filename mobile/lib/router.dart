@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'core/theme/spacing.dart';
 import 'features/auth/auth_controller.dart';
 import 'features/auth/forgot_password_screen.dart';
 import 'features/auth/login_screen.dart';
@@ -76,6 +77,26 @@ abstract class AppRoutes {
   static const guestOnlyPaths = {login, register, forgotPassword};
 }
 
+/// Tab switches fade through instead of sliding: a slide implies a stack you
+/// can go back along, and the four tabs are siblings, not a history.
+CustomTransitionPage<void> _fadeThrough(Widget child) {
+  return CustomTransitionPage<void>(
+    child: child,
+    transitionDuration: AppDuration.medium,
+    reverseTransitionDuration: AppDuration.fast,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final curved = CurvedAnimation(parent: animation, curve: Curves.easeOutCubic);
+      return FadeTransition(
+        opacity: curved,
+        child: ScaleTransition(
+          scale: Tween<double>(begin: 0.97, end: 1).animate(curved),
+          child: child,
+        ),
+      );
+    },
+  );
+}
+
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 /// The router instance. It is a provider so the auth layer can add its
@@ -131,11 +152,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.feed,
-        builder: (context, state) => const FeedScreen(),
+        pageBuilder: (context, state) => _fadeThrough(const FeedScreen()),
       ),
       GoRoute(
         path: AppRoutes.habits,
-        builder: (context, state) => const HabitsScreen(),
+        pageBuilder: (context, state) => _fadeThrough(const HabitsScreen()),
       ),
       GoRoute(
         path: AppRoutes.habitNew,
@@ -151,7 +172,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.points,
-        builder: (context, state) => const PointsScreen(),
+        pageBuilder: (context, state) => _fadeThrough(const PointsScreen()),
       ),
       GoRoute(
         path: AppRoutes.lotteryRules,
@@ -179,7 +200,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.profile,
-        builder: (context, state) => const MyProfileScreen(),
+        pageBuilder: (context, state) => _fadeThrough(const MyProfileScreen()),
       ),
       GoRoute(
         path: AppRoutes.settings,

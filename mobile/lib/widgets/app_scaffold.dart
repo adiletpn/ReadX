@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'ambient_background.dart';
 import 'offline_banner.dart';
 
 import '../core/theme/colors.dart';
@@ -85,10 +86,12 @@ class AppScaffold extends StatelessWidget {
       drawerScrimColor: const Color(0x99000000),
       backgroundColor: AppColors.bg,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: AppMetrics.contentWidth),
-          child: column,
+      body: AmbientBackground(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: AppMetrics.contentWidth),
+            child: column,
+          ),
         ),
       ),
     );

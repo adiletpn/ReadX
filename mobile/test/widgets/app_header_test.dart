@@ -41,13 +41,38 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('missing slots become spacers so the middle stays centred', (tester) async {
-      await pumpWidgetUnderTest(tester, const AppHeader(middle: Text('ReadX')));
+    testWidgets('the middle sits on the bar centre line whatever flanks it', (tester) async {
+      Future<double> middleCentre(AppHeader header) async {
+        await pumpWidgetUnderTest(tester, header);
+        return tester.getCenter(find.text('ReadX')).dx;
+      }
 
-      final spacers = tester
-          .widgetList<SizedBox>(find.descendant(of: find.byType(Row), matching: find.byType(SizedBox)))
-          .where((box) => box.width == 42);
-      expect(spacers.length, 2);
+      // The three shapes the tabs actually use: bare, one trailing button, and
+      // a leading button with two trailing ones.
+      final bare = await middleCentre(const AppHeader(middle: Text('ReadX')));
+      final oneTrailing = await middleCentre(
+        AppHeader(
+          middle: const Text('ReadX'),
+          trailing: HeaderIconButton(icon: LucideIcons.ellipsis, onTap: () {}),
+        ),
+      );
+      final crowded = await middleCentre(
+        AppHeader(
+          middle: const Text('ReadX'),
+          leading: HeaderIconButton(icon: LucideIcons.menu, onTap: () {}),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              HeaderIconButton(icon: LucideIcons.bell, onTap: () {}),
+              HeaderIconButton(icon: LucideIcons.search, onTap: () {}),
+            ],
+          ),
+        ),
+      );
+
+      expect(bare, closeTo(195, 0.5));
+      expect(oneTrailing, closeTo(bare, 0.5));
+      expect(crowded, closeTo(bare, 0.5));
     });
 
     testWidgets('leading and trailing widgets are rendered', (tester) async {

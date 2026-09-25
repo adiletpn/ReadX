@@ -48,25 +48,25 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: AppColors.border)),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          leading ?? const SizedBox(width: _slotWidth),
-          if (middle != null)
-            Flexible(child: middle!)
-          else if (title != null)
-            Flexible(
-              child: Text(
-                title!,
-                style: AppText.action,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            )
-          else
-            const SizedBox.shrink(),
-          trailing ?? const SizedBox(width: _slotWidth),
-        ],
+      // NavigationToolbar, not a Row with spaceBetween: the wordmark has to sit
+      // on the screen's centre line on every tab, and the tabs do not carry
+      // the same number of header buttons. spaceBetween would shift it by half
+      // the difference each time, so the logo jumped when switching tabs.
+      child: NavigationToolbar(
+        centerMiddle: true,
+        middleSpacing: 8,
+        leading: leading ?? const SizedBox(width: _slotWidth),
+        middle: middle ??
+            (title == null
+                ? null
+                : Text(
+                    title!,
+                    textAlign: TextAlign.center,
+                    style: AppText.action,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  )),
+        trailing: trailing ?? const SizedBox(width: _slotWidth),
       ),
     );
   }

@@ -91,6 +91,7 @@ void main() {
     await pumpWidgetUnderTest(tester, AppTextField(focusNode: node));
     await pumpWidgetUnderTest(tester, const SizedBox.shrink());
 
-    expect(node.hasListeners, isFalse);
+    expect(() => node.canRequestFocus, returnsNormally);
+    expect(tester.takeException(), isNull);
   });
 }

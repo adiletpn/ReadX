@@ -19,6 +19,7 @@ import '../../widgets/pressable.dart';
 import '../../widgets/primary_button.dart';
 import '../../widgets/state_views.dart';
 import '../../widgets/user_avatar.dart';
+import '../../widgets/section_header.dart';
 import '../auth/auth_controller.dart';
 import 'shared_habit_controller.dart';
 
@@ -81,8 +82,7 @@ class SharedHabitScreen extends ConsumerWidget {
             children: [
               _HeaderCard(detail: value),
               const SizedBox(height: 24),
-              const Text('MEMBERS', style: AppText.overline),
-              const SizedBox(height: 12),
+              const SectionHeader(icon: LucideIcons.users, label: 'MEMBERS'),
               for (final member in value.members)
                 _MemberRow(member: member),
               if (value.postId != null) ...[

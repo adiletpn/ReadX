@@ -17,6 +17,7 @@ import '../../widgets/loading_spinner.dart';
 import '../../widgets/pressable.dart';
 import '../../widgets/state_views.dart';
 import '../../widgets/user_avatar.dart';
+import '../../widgets/section_header.dart';
 import '../auth/auth_controller.dart';
 import '../profile/users_repository.dart';
 
@@ -141,7 +142,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ),
           const Padding(
             padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
-            child: Text('SUGGESTED', style: AppText.overline),
+            child: SectionHeader(icon: LucideIcons.sparkles, label: 'SUGGESTED'),
           ),
           Expanded(child: _buildBody(me?.id)),
         ],

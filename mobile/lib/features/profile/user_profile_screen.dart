@@ -18,6 +18,7 @@ import '../../widgets/loading_spinner.dart';
 import '../../widgets/pressable.dart';
 import '../../widgets/state_views.dart';
 import '../../widgets/user_avatar.dart';
+import '../../widgets/section_header.dart';
 import '../auth/auth_controller.dart';
 import '../moderation/moderation_menu.dart';
 import 'users_repository.dart';
@@ -173,8 +174,7 @@ class UserProfileScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 24),
-              const Text('POSTS', style: AppText.overline),
-              const SizedBox(height: 12),
+              const SectionHeader(icon: LucideIcons.penLine, label: 'POSTS'),
               if (value.posts.isEmpty)
                 const Text(
                   'No posts yet',

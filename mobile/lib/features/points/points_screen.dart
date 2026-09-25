@@ -20,6 +20,7 @@ import '../../widgets/pressable.dart';
 import '../../widgets/readx_logo.dart';
 import '../../widgets/state_views.dart';
 import '../../widgets/user_avatar.dart';
+import '../../widgets/section_header.dart';
 import '../auth/auth_controller.dart';
 import '../settings/app_settings.dart';
 import 'points_repository.dart';
@@ -133,8 +134,11 @@ class _PointsScreenState extends ConsumerState<PointsScreen> {
         _LeaderRow(entry: entry, isMe: entry.id == myId),
       if (!inTop) ...[
         const SizedBox(height: 20),
-        const Text('YOUR POSITION', style: AppText.overline),
-        const SizedBox(height: 12),
+        const SectionHeader(
+          icon: LucideIcons.mapPin,
+          label: 'YOUR POSITION',
+          color: AppColors.warning,
+        ),
         if (myPoints == 0)
           const Text(
             'Ещё не заработал очков в этом месяце.',

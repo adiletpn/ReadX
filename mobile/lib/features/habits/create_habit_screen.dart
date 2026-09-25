@@ -17,6 +17,7 @@ import '../../widgets/app_toast.dart';
 import '../../widgets/pressable.dart';
 import '../../widgets/primary_button.dart';
 import '../../widgets/state_views.dart';
+import '../../widgets/section_header.dart';
 import '../feed/feed_controller.dart';
 import 'habits_controller.dart';
 import 'habits_repository.dart';
@@ -160,8 +161,7 @@ class _CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
             AppErrorBanner(message: _error),
             const SizedBox(height: 16),
           ],
-          const Text('HABIT NAME', style: AppText.overline),
-          const SizedBox(height: 8),
+          const SectionHeader(icon: LucideIcons.target, label: 'HABIT NAME'),
           AppTextField(
             controller: _title,
             hintText: 'Read 20 pages',

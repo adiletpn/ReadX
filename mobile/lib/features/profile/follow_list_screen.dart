@@ -218,7 +218,7 @@ class _Row extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: user.isFollowing ? AppColors.surfaceHi : AppColors.primary,
                       border: Border.all(
-                        color: user.isFollowing ? const Color(0xFF333333) : AppColors.primary,
+                        color: user.isFollowing ? AppColors.surfaceHi2 : AppColors.primary,
                       ),
                       borderRadius: BorderRadius.circular(AppMetrics.radiusField),
                     ),

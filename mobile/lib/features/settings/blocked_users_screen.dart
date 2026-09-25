@@ -99,7 +99,7 @@ class BlockedUsersScreen extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         decoration: BoxDecoration(
                           color: AppColors.surfaceHi,
-                          border: Border.all(color: const Color(0xFF333333)),
+                          border: Border.all(color: AppColors.surfaceHi2),
                           borderRadius: BorderRadius.circular(AppMetrics.radiusField),
                         ),
                         child: const Text(

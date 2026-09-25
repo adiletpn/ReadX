@@ -200,7 +200,7 @@ class _FollowButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: isFollowing ? AppColors.surfaceHi : AppColors.primary,
             border: Border.all(
-              color: isFollowing ? const Color(0xFF333333) : AppColors.primary,
+              color: isFollowing ? AppColors.surfaceHi2 : AppColors.primary,
             ),
             borderRadius: BorderRadius.circular(AppMetrics.radiusCard),
           ),

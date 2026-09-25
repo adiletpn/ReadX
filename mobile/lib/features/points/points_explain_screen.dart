@@ -128,7 +128,7 @@ class PointsExplainScreen extends ConsumerWidget {
           const Text(
             'Rules are subject to change.',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 12, color: Color(0xFF2E2E2E)),
+            style: TextStyle(fontSize: 12, color: AppColors.textDisabled),
           ),
         ],
       ),

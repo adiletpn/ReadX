@@ -223,7 +223,6 @@ class _PostDetailScreenState extends ConsumerState<PostDetailScreen> {
 
     return Container(
       decoration: const BoxDecoration(
-        color: AppColors.bg,
         border: Border(top: BorderSide(color: AppColors.border)),
       ),
       padding: EdgeInsets.only(bottom: bottomInset),

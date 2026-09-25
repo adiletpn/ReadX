@@ -326,7 +326,6 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
   Widget _buildToolbar() {
     return Container(
       decoration: const BoxDecoration(
-        color: AppColors.bg,
         border: Border(top: BorderSide(color: AppColors.border)),
       ),
       padding: EdgeInsets.only(

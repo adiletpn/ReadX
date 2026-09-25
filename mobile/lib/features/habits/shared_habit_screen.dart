@@ -232,7 +232,6 @@ class _Actions extends StatelessWidget {
         bottom: 12 + MediaQuery.paddingOf(context).bottom,
       ),
       decoration: const BoxDecoration(
-        color: AppColors.bg,
         border: Border(top: BorderSide(color: AppColors.border)),
       ),
       child: Column(

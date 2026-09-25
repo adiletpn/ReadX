@@ -1,13 +1,13 @@
 import 'package:flutter/painting.dart';
 
 abstract class AppColors {
-  static const bg = Color(0xFF08090C);
-  static const surface = Color(0xFF101218);
-  static const surfaceAlt = Color(0xFF15181F);
-  static const surfaceHi = Color(0xFF1C2029);
-  static const surfaceHi2 = Color(0xFF262B36);
-  static const border = Color(0xFF1A1E27);
-  static const borderBright = Color(0xFF272C38);
+  static const bg = Color(0xFF15171C);
+  static const surface = Color(0xFF1D2026);
+  static const surfaceAlt = Color(0xFF22252C);
+  static const surfaceHi = Color(0xFF2A2E37);
+  static const surfaceHi2 = Color(0xFF353A45);
+  static const border = Color(0xFF282C34);
+  static const borderBright = Color(0xFF3A3F4A);
 
   static const primary = Color(0xFF0077FF);
   static const primaryBright = Color(0xFF3D9BFF);
@@ -23,9 +23,9 @@ abstract class AppColors {
   static const textBody = Color(0xFFC7CAD1);
   static const textSecondary = Color(0xFF8E93A0);
   static const textMuted = Color(0xFF6C7280);
-  static const textFaint = Color(0xFF4A4F5A);
-  static const textDisabled = Color(0xFF343945);
-  static const textGhost = Color(0xFF3A404C);
+  static const textFaint = Color(0xFF5D6371);
+  static const textDisabled = Color(0xFF474D5A);
+  static const textGhost = Color(0xFF4E5561);
 
   static const primary10 = Color(0x1A0077FF);
   static const primary30 = Color(0x4D0077FF);
